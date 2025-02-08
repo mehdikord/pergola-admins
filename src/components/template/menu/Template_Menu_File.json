@@ -1,0 +1,66 @@
+[
+  {
+    "title" : true,
+    "fa" : "اطلاعات کلی و داشبورد",
+    "en" : "Dashboards"
+  },
+  {
+    "fa" : "داشبورد",
+    "en" : "Dashboard",
+    "icon" : "fas fa-dashboard",
+    "route_path" : "/",
+    "route_name" : "home",
+    "level"      : 0,
+    "subs" : [
+
+    ]
+  },
+  {
+    "title" : true,
+    "fa" : "کاربران سیستم",
+    "en" : "Dashboards"
+  },
+  {
+    "fa" : "کابران",
+    "en" : "Users",
+    "icon" : "fas fa-users",
+    "route_path" : "/",
+    "route_name" : "",
+    "level"      : 0,
+    "subs" : [
+      {
+        "fa" : "مدیران",
+        "en" : "Managers",
+        "route_path" : "/",
+        "route_name" : "managers",
+        "feature" : "1001",
+        "icon" : "fas fa-user-tie font-20",
+        "level"      : 0.5
+      },
+      {
+        "fa" : "کابران",
+        "en" : "Users",
+        "route_path" : "/users",
+        "icon" : "fas fa-user-group font-20",
+        "route_name" : "users",
+        "level"      : 0.5
+      }
+    ]
+  },
+  {
+    "title" : true,
+    "fa" : "مدیریت سیستم",
+    "en" : "Dashboards"
+  },
+  {
+    "fa" : "مدیریت رنگ ها",
+    "en" : "Colors management",
+    "icon" : "fas fa-palette",
+    "route_path" : "/colors",
+    "route_name" : "colors",
+    "level"      : 0,
+    "subs" : [
+
+    ]
+  }
+]
