@@ -62,5 +62,16 @@
     "subs" : [
 
     ]
+  },
+  {
+    "fa" : "مدیریت ویژگی ها",
+    "en" : "Options management",
+    "icon" : "fas fa-list",
+    "route_path" : "/options",
+    "route_name" : "options",
+    "level"      : 0,
+    "subs" : [
+
+    ]
   }
 ]

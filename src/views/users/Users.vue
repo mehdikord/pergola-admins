@@ -114,7 +114,6 @@ export default {
       }
 
       Stores_Users().Index(this.query_params).then(res=>{
-        console.log(res.data);
         this.items = res.data.result.data;
         this.pagination.page = res.data.result.current_page;
         this.pagination.rowsPerPage = res.data.result.per_page;
