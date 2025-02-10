@@ -281,7 +281,7 @@ export default {
                   <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
                 </q-card-section>
                 <q-card-section>
-                  <colors_edit :item="props.row"></colors_edit>
+                  <colors_edit :item="props.row" @Done="(item => { Item_Edit(item) })"></colors_edit>
                 </q-card-section>
               </q-card>
             </q-dialog>

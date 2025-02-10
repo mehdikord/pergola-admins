@@ -73,5 +73,16 @@
     "subs" : [
 
     ]
+  },
+  {
+    "fa" : "پرسش ها",
+    "en" : "Questions",
+    "icon" : "fas fa-question-circle",
+    "route_path" : "/questions",
+    "route_name" : "questions",
+    "level"      : 0,
+    "subs" : [
+
+    ]
   }
 ]

@@ -1,29 +1,19 @@
 import { defineStore } from 'pinia'
-export const Stores_Colors = defineStore('colors',{
+export const Stores_Questions = defineStore('questions',{
     state : ()=>({}),
     actions : {
         Index(params){
            return new Promise((resolve, reject) => {
-               axios.get('admins/colors',{params : params}).then(response =>{
+               axios.get('admins/questions',{params : params}).then(response =>{
                    return resolve(response);
                }).catch(error =>{
                    return reject(error);
                })
            })
        },
-
-        All(){
-            return new Promise((resolve, reject) => {
-                axios.get('admins/colors/all').then(response =>{
-                    return resolve(response);
-                }).catch(error =>{
-                    return reject(error);
-                })
-            })
-        },
         Create(params){
             return new Promise((resolve, reject) => {
-                axios.post('admins/colors',params).then(response =>{
+                axios.post('admins/questions',params).then(response =>{
                     return resolve(response);
                 }).catch(error =>{
                     return reject(error);
@@ -32,7 +22,7 @@ export const Stores_Colors = defineStore('colors',{
         },
         Show(id){
             return new Promise((resolve, reject) => {
-                axios.get('admins/colors/'+id).then(response =>{
+                axios.get('admins/questions/'+id).then(response =>{
                     return resolve(response);
                 }).catch(error =>{
                     return reject(error);
@@ -41,7 +31,7 @@ export const Stores_Colors = defineStore('colors',{
         },
         Edit(params){
             return new Promise((resolve, reject) => {
-                axios.put('admins/colors/'+params.id,params).then(response =>{
+                axios.put('admins/questions/'+params.id,params).then(response =>{
                     return resolve(response);
                 }).catch(error =>{
                     return reject(error);
@@ -51,7 +41,7 @@ export const Stores_Colors = defineStore('colors',{
 
         Delete(id){
             return new Promise((resolve, reject) => {
-                axios.delete('admins/colors/'+id).then(response =>{
+                axios.delete('admins/questions/'+id).then(response =>{
                     return resolve(response);
                 }).catch(error =>{
                     return reject(error);
@@ -60,7 +50,7 @@ export const Stores_Colors = defineStore('colors',{
         },
         Activation(id){
             return new Promise((resolve, reject) => {
-                axios.get('admins/colors/'+id+'/activation').then(response =>{
+                axios.get('admins/questions/'+id+'/activation').then(response =>{
                     return resolve(response);
                 }).catch(error =>{
                     return reject(error);

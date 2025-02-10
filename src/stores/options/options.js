@@ -11,6 +11,15 @@ export const Stores_Options = defineStore('options',{
                })
            })
        },
+        All(){
+            return new Promise((resolve, reject) => {
+                axios.get('admins/options/all').then(response =>{
+                    return resolve(response);
+                }).catch(error =>{
+                    return reject(error);
+                })
+            })
+        },
         Create(params){
             return new Promise((resolve, reject) => {
                 axios.post('admins/options',params).then(response =>{

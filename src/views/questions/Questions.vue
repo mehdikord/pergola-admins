@@ -1,15 +1,10 @@
 <script>
 
-import {Stores_Options} from "@/stores/options/options.js";
-import Options_Create from "@/views/options/Options_Create.vue";
-import Options_Edit from "@/views/options/Options_Edit.vue";
+import {Stores_Questions} from "@/stores/questions/questions.js";
+
 
 export default {
-  name: "Options",
-  components: {
-    'options_create' : Options_Create,
-    'options_edit' : Options_Edit
-  },
+  name: "Questions",
   mounted() {
     this.Items_Get();
   },
@@ -28,7 +23,6 @@ export default {
       activation_loading:false,
       dialog_create:false,
       dialog_edit:[],
-      dialog_items:[],
       items_selected:[],
       selected: [],
       pagination: {
@@ -48,43 +42,43 @@ export default {
           field: row => '# ' + row.id,
         },
         {
-          name: 'name',
-          value: 'name',
-          label: 'عنوان ویژگی',
+          name: 'from_color',
+          value: 'from_color',
+          label: 'رنگ فعلی' ,
           align: 'left',
           sortable: true,
-          field: row => row.name,
+          field: row => row.from_color,
         },
         {
-          name: 'unit',
-          value: 'unit',
-          label: 'یکا اندازه گیری',
+          name: 'to_color',
+          value: 'to_color',
+          label: 'رنگ جدید' ,
           align: 'left',
           sortable: true,
-          field: row => row.unit,
-        },
-        {
-          name: 'guid',
-          value: 'guid',
-          label: 'راهنما',
-          align: 'left',
-          sortable: true,
-          field: row => row.guid,
+          field: row => row.to_color,
         },
         {
           name: 'items',
           value: 'items',
-          label: 'گزینه ها',
+          label: 'اطلاعات',
           align: 'left',
-          sortable: true,
+          sortable: false,
           field: row => row.items,
+        },
+        {
+          name: 'answers',
+          value: 'answers',
+          label: 'مراحل',
+          align: 'left',
+          sortable: false,
+          field: row => row.answers,
         },
         {
           name: 'is_active',
           value: 'is_active',
           label: 'وضعیت',
           align: 'left',
-          sortable: false,
+          sortable: true,
           field: row => row.is_active,
         },
         {
@@ -105,7 +99,8 @@ export default {
       if (page){
         this.query_params.page = page;
       }
-      Stores_Options().Index(this.query_params).then(res=>{
+
+      Stores_Questions().Index(this.query_params).then(res=>{
         this.items = res.data.result.data;
         this.pagination.page = res.data.result.current_page;
         this.pagination.rowsPerPage = res.data.result.per_page;
@@ -121,19 +116,10 @@ export default {
       this.dialog_create = false;
       this.Methods_Notify_Create()
     },
-    Item_Edit(item){
-      this.items = this.items.map(get_item => {
-        if (get_item.id === item.id) {
-          return item;
-        }
-        return get_item;
-      });
-      this.dialog_edit[item.id] = false;
-      this.Methods_Notify_Update()
-    },
+
     Item_Delete(id){
       this.delete_loading=true;
-      Stores_Options().Delete(id).then(res => {
+      Stores_Questions().Delete(id).then(res => {
         this.items = this.items.filter(item => {
           return item.id !== id;
         })
@@ -151,7 +137,7 @@ export default {
     },
     Item_Activation(id){
       this.activation_loading=true;
-      Stores_Options().Activation(id).then(res => {
+      Stores_Questions().Activation(id).then(res => {
         this.items = this.items.filter(item => {
           if (item.id === id){
             item.is_active = !item.is_active;
@@ -198,24 +184,7 @@ export default {
 <template>
   <q-card>
     <q-card-section>
-      <global_actions_header_buttons @Create="dialog_create=true" :create="true"></global_actions_header_buttons>
-
-      <q-dialog
-          v-model="dialog_create"
-          position="top"
-      >
-        <q-card style="width: 1024px; max-width: 85vw;">
-
-          <q-card-section>
-            <strong class="text-indigo-8 font-15">افزودن آیتم جدید</strong>
-            <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
-          </q-card-section>
-          <q-card-section>
-            <options_create @Done="(item => { Item_Create(item) })"></options_create>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
-
+      <global_actions_header_buttons @Create="this.$router.push({name : 'questions_create'})" :create="true"></global_actions_header_buttons>
       <q-separator class="q-mt-xl"/>
     </q-card-section>
     <q-card-section>
@@ -243,33 +212,9 @@ export default {
             </div>
           </q-td>
         </template>
-        <template v-slot:body-cell-items="props">
-          <q-td :props="props" >
-            <q-btn @click="dialog_items[props.row.id] = true" size="sm" color="deep-orange-8" label="مشاهده" glossy rounded class="font-12"></q-btn>
-            <q-dialog
-                v-model="dialog_items[props.row.id]"
-                position="top"
-            >
-              <q-card style="width: 1024px; max-width: 85vw;">
-
-                <q-card-section>
-                  <strong class=" font-15">مشاهده گزینه های : <strong class="text-deep-orange-8">{{props.row.name}}</strong></strong>
-                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
-                </q-card-section>
-                <q-card-section>
-                  <div class="row q-gutter-sm">
-                    <div v-for="item in props.row.items">
-                      <q-chip color="teal-8" size="md" class="font-14" text-color="white"> {{item.item}}</q-chip>
-                    </div>
-                  </div>
-                </q-card-section>
-                <q-card-section>
-                  <div class="text-right">
-                    <q-btn color="grey-9" v-close-popup label="بستن" glossy ></q-btn>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </q-dialog>
+        <template v-slot:body-cell-color="props">
+          <q-td :props="props">
+            <div :style="'background-color:'+props.row.color+ ';margin: 0 auto'" class="tear"></div>
           </q-td>
         </template>
         <template v-slot:body-cell-is_active="props">
@@ -277,30 +222,22 @@ export default {
             <global_actions_activation_item @Set_Ok="Item_Activation(props.row.id)" :status="props.row.is_active"></global_actions_activation_item>
           </q-td>
         </template>
-
+        <template v-slot:body-cell-current_choices="props">
+          <q-td :props="props">
+            <q-chip color="blue-grey-8" text-color="white" size="sm" :label="props.row.current_choices" class="font-12"></q-chip>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-convert_choices="props">
+          <q-td :props="props">
+            <q-chip color="deep-orange-8" text-color="white" size="sm" :label="props.row.convert_choices" class="font-12"></q-chip>
+          </q-td>
+        </template>
         <template v-slot:body-cell-tools="props">
           <q-td :props="props">
             <div class="text-center">
-              <q-btn @click="dialog_edit[props.row.id] = true" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fas fa-edit" size="9px" round  />
+              <q-btn :to="{name : 'questions_edit',params:{id : props.row.id}}" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fas fa-edit" size="9px" round  />
               <global_actions_delete_item @Set_Ok="Item_Delete(props.row.id)" :loading="delete_loading"></global_actions_delete_item>
             </div>
-
-            <q-dialog
-                v-model="dialog_edit[props.row.id]"
-                position="top"
-            >
-              <q-card style="width: 1024px; max-width: 85vw;">
-
-                <q-card-section>
-                  <strong class="text-blue-8 font-15">ویرایش اطلاعات : <strong class="text-red-8">{{props.row.name}}</strong></strong>
-                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
-                </q-card-section>
-                <q-card-section>
-                  <options_edit :item="props.row" @Done="(item => { Item_Edit(item) })"></options_edit>
-                </q-card-section>
-              </q-card>
-            </q-dialog>
-
 
           </q-td>
         </template>
@@ -308,9 +245,6 @@ export default {
       </q-table>
     </q-card-section>
   </q-card>
-
-
-
 
 </template>
 
