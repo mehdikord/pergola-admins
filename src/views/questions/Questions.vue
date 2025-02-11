@@ -1,16 +1,20 @@
 <script>
 
 import {Stores_Questions} from "@/stores/questions/questions.js";
+import colors_create from "@/views/colors/Colors_Create.vue";
 
 
 export default {
   name: "Questions",
+  components: {colors_create},
   mounted() {
     this.Items_Get();
   },
   data(){
     return {
       items:[],
+      dialog_items : [],
+      dialog_answers : [],
       query_params:{
         sort_by : 'id',
         sort_type : 'desc',
@@ -205,18 +209,87 @@ export default {
           v-model:pagination="pagination"
           @request="Items_OnRequest"
       >
+        <template v-slot:body-cell-from_color="props">
+          <q-td :props="props">
+            <div class="row q-gutter-sm">
+              <div :style="'background-color:'+props.row.from_color.color" class="tear"></div>
+              <div class="q-mt-md"><strong>{{props.row.from_color.name}}</strong></div>
+            </div>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-to_color="props">
+          <q-td :props="props">
+            <div class="row q-gutter-sm">
+              <div :style="'background-color:'+props.row.to_color.color" class="tear"></div>
+              <div class="q-mt-md"><strong>{{props.row.to_color.name}}</strong></div>
+            </div>
+          </q-td>
+        </template>
         <template v-slot:body-cell-items="props">
           <q-td :props="props">
-            <div >
-             <q-btn glossy rounded color="deep-orange-8" label="مشاهده اطلاعات" size="sm" class="font-12"></q-btn>
-            </div>
+            <q-btn @click="dialog_items[props.row.id] = true" glossy rounded color="deep-orange-8" label="مشاهده اطلاعات" size="sm" class="font-12"></q-btn>
+            <q-dialog
+                v-model="dialog_items[props.row.id]"
+                position="top"
+            >
+              <q-card style="width: 700px; max-width: 85vw;">
+                <q-card-section>
+                  <strong class="text-deep-orange-8 font-15">مشاهده اطلاعات </strong>
+                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                </q-card-section>
+                <q-card-section>
+                  <div v-for="option in props.row.items" class="row">
+                    <div class="col-md-6">
+                      <strong class="text-grey-8">{{option.option.name}} : </strong>
+                    </div>
+                    <div class="col-md-6">
+                      <strong>{{option.value}}</strong>
+                    </div>
+                    <div class="col-12">
+                      <q-separator class="q-mt-md q-mb-lg"/>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-card-section>
+                  <div class="text-right">
+                    <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
           </q-td>
         </template>
         <template v-slot:body-cell-answers="props">
           <q-td :props="props">
-            <div >
-             <q-btn glossy rounded color="teal-8" label="مشاهده مراحل" size="sm" class="font-12"></q-btn>
-            </div>
+            <q-btn @click="dialog_answers[props.row.id] = true" glossy rounded color="teal-8" label="مشاهده مراحل" size="sm" class="font-12"></q-btn>
+            <q-dialog
+                v-model="dialog_answers[props.row.id]"
+                position="top"
+            >
+              <q-card style="width: 1024px; max-width: 85vw;">
+
+                <q-card-section>
+                  <strong class="text-deep-orange-8 font-15">مشاهده مراحل </strong>
+                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                </q-card-section>
+                <q-card-section>
+                  <div v-for="answer in props.row.answers" class="q-mb-lg">
+                    <div class="answer-box">
+
+                      <p class="text-justify">
+                        <q-icon v-if="answer.is_special" name="fas fa-star" color="red-7" class="font-20 q-mr-sm"></q-icon>
+                        {{answer.answer}}
+                      </p>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-card-section>
+                  <div class="text-right">
+                    <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
           </q-td>
         </template>
         <template v-slot:body-cell-is_active="props">
@@ -241,5 +314,9 @@ export default {
 </template>
 
 <style scoped>
-
+.answer-box{
+  padding: 20px 10px;
+  border-radius:8px;
+  border : 1px dashed #212121;
+}
 </style>
