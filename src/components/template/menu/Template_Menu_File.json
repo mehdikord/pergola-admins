@@ -84,5 +84,16 @@
     "subs" : [
 
     ]
+  },
+  {
+    "fa" : "اشتراک ها",
+    "en" : "Plans",
+    "icon" : "fas fa-star",
+    "route_path" : "/plans",
+    "route_name" : "plans",
+    "level"      : 0,
+    "subs" : [
+
+    ]
   }
 ]
