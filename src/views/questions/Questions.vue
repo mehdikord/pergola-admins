@@ -205,31 +205,23 @@ export default {
           v-model:pagination="pagination"
           @request="Items_OnRequest"
       >
-        <template v-slot:body-cell-name="props">
+        <template v-slot:body-cell-items="props">
           <q-td :props="props">
-            <div class="row">
-              <div class="q-ml-sm q-mt-sm"><strong>{{ props.row.name }}</strong></div>
+            <div >
+             <q-btn glossy rounded color="deep-orange-8" label="مشاهده اطلاعات" size="sm" class="font-12"></q-btn>
             </div>
           </q-td>
         </template>
-        <template v-slot:body-cell-color="props">
+        <template v-slot:body-cell-answers="props">
           <q-td :props="props">
-            <div :style="'background-color:'+props.row.color+ ';margin: 0 auto'" class="tear"></div>
+            <div >
+             <q-btn glossy rounded color="teal-8" label="مشاهده مراحل" size="sm" class="font-12"></q-btn>
+            </div>
           </q-td>
         </template>
         <template v-slot:body-cell-is_active="props">
           <q-td :props="props">
             <global_actions_activation_item @Set_Ok="Item_Activation(props.row.id)" :status="props.row.is_active"></global_actions_activation_item>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-current_choices="props">
-          <q-td :props="props">
-            <q-chip color="blue-grey-8" text-color="white" size="sm" :label="props.row.current_choices" class="font-12"></q-chip>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-convert_choices="props">
-          <q-td :props="props">
-            <q-chip color="deep-orange-8" text-color="white" size="sm" :label="props.row.convert_choices" class="font-12"></q-chip>
           </q-td>
         </template>
         <template v-slot:body-cell-tools="props">
