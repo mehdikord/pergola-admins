@@ -46,7 +46,7 @@ name: "Questions_Create",
       add_file:null,
       answer_colors:[],
       answer_text:null,
-      answer_declare:null
+      answer_oxidant:null
     }
   },
   methods: {
@@ -148,10 +148,10 @@ name: "Questions_Create",
       })
     },
     Add_Attributes() {
-      this.items.answers.push({id :this.item_counter,colors : this.answer_colors , declare : this.answer_declare , text:this.answer_text });
+      this.items.answers.push({id :this.item_counter,colors : this.answer_colors , oxidant : this.answer_oxidant , text:this.answer_text });
       this.item_counter++;
       this.answer_colors=[];
-      this.answer_declare=null;
+      this.answer_oxidant=null;
       this.answer_text=null
       this.add_level_dialog = false
       return this.Methods_Notify_Message_Success('به لیست پاسخ ها اضافه شد')
@@ -434,7 +434,7 @@ name: "Questions_Create",
                   </template>
                 </div>
                 <div class="q-mt-md">
-                  <q-input outlined v-model="answer_declare" type="text" label="درصد دکلره">
+                  <q-input outlined v-model="answer_oxidant" type="text" label="مقدار اکسیدان">
                   </q-input>
                 </div>
                 <div class="q-mt-md">
@@ -487,8 +487,8 @@ name: "Questions_Create",
               </div>
               <q-separator class="q-mt-md q-mb-md" />
               <div>
-                <strong class="text-teal-8">درصد دکلره : </strong>
-                <strong class="text-red-8">{{answer.declare}}</strong>
+                <strong class="text-teal-8">مقدار اکسیدان : </strong>
+                <strong class="text-red-8">{{answer.oxidant}}</strong>
               </div>
               <q-separator class="q-mt-md q-mb-md" />
               <div>
