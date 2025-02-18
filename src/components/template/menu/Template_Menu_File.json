@@ -86,17 +86,6 @@
     ]
   },
   {
-    "fa" : "آیتم های پاسخ",
-    "en" : "Answer Options",
-    "icon" : "fas fa-question-circle",
-    "route_path" : "/answer/options",
-    "route_name" : "answer_options",
-    "level"      : 0,
-    "subs" : [
-
-    ]
-  },
-  {
     "fa" : "اشتراک ها",
     "en" : "Plans",
     "icon" : "fas fa-star",
