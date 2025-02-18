@@ -441,26 +441,26 @@ name: "Questions_Create",
                   <q-input outlined v-model="answer_text" type="textarea" rows="3" label="توضیحات">
                   </q-input>
                 </div>
-               <div class="q-mt-md">
-                <strong> فایل ها : </strong>
-                 <div class="q-mt-md">
-                   <q-file outlined bottom-slots v-model="add_file" label="انتخاب فایل" counter>
-                     <template v-slot:prepend>
-                       <q-icon name="fas fa-file" @click.stop.prevent />
-                     </template>
-                     <template v-slot:append>
-                       <q-icon name="close" @click.stop.prevent="add_file = null" class="cursor-pointer" />
-                     </template>
-                   </q-file>
-                 </div>
-                 <div class="text-right">
-                   <q-btn @click="Add_Answer_File" class="q-mt-sm font-13" color="teal-8" glossy size="sm" label="افزودن به لیست فایل ها"></q-btn>
-                 </div>
-               </div>
-<!--                <div class="q-mt-lg q-mb-md text-right">-->
-<!--                  <q-separator class="q-mt-md q-mb-md" />-->
-<!--                  <q-btn @click="Add_Attributes" color="indigo" label="افزودن به لیست پاسخ ها" glossy ></q-btn>-->
-<!--                </div>-->
+<!--               <div class="q-mt-md">-->
+<!--                <strong> فایل ها : </strong>-->
+<!--                 <div class="q-mt-md">-->
+<!--                   <q-file outlined bottom-slots v-model="add_file" label="انتخاب فایل" counter>-->
+<!--                     <template v-slot:prepend>-->
+<!--                       <q-icon name="fas fa-file" @click.stop.prevent />-->
+<!--                     </template>-->
+<!--                     <template v-slot:append>-->
+<!--                       <q-icon name="close" @click.stop.prevent="add_file = null" class="cursor-pointer" />-->
+<!--                     </template>-->
+<!--                   </q-file>-->
+<!--                 </div>-->
+<!--                 <div class="text-right">-->
+<!--                   <q-btn @click="Add_Answer_File" class="q-mt-sm font-13" color="teal-8" glossy size="sm" label="افزودن به لیست فایل ها"></q-btn>-->
+<!--                 </div>-->
+<!--               </div>-->
+                <div class="q-mt-lg q-mb-md text-right">
+                  <q-separator class="q-mt-md q-mb-md" />
+                  <q-btn @click="Add_Attributes" color="indigo" label="افزودن به لیست پاسخ ها" glossy ></q-btn>
+                </div>
               </q-card-section>
             </q-card>
           </q-dialog>
