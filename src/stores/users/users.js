@@ -56,7 +56,16 @@ export const Stores_Users = defineStore('users',{
                     return reject(error);
                 })
             })
-        }
+        },
+        Add_Plan(params){
+            return new Promise((resolve, reject) => {
+                axios.post('admins/users/'+params.id+'/plans',params).then(response =>{
+                    return resolve(response);
+                }).catch(error =>{
+                    return reject(error);
+                })
+            })
+        },
 
     },
     getters :{

@@ -3,12 +3,14 @@
 import {Stores_Users} from "@/stores/users/users.js";
 import Users_Create from "@/views/users/Users_Create.vue";
 import Users_Edit from "@/views/users/Users_Edit.vue";
+import Users_Add_Plan from "@/views/users/Users_Add_Plan.vue";
 
 export default {
   name: "Users",
   components: {
     'users_create' : Users_Create,
-    'users_edit' : Users_Edit
+    'users_edit' : Users_Edit,
+    'users_add_plan' : Users_Add_Plan
   },
   mounted() {
     this.Items_Get();
@@ -28,6 +30,7 @@ export default {
       activation_loading:false,
       dialog_create:false,
       dialog_edit:[],
+      dialog_plan:[],
       items_selected:[],
       selected: [],
       pagination: {
@@ -77,6 +80,14 @@ export default {
           align: 'left',
           sortable: true,
           field: row => row.is_active,
+        },
+        {
+          name: 'plan_status',
+          value: 'plan_status',
+          label: 'وضعیت اشتراک',
+          align: 'left',
+          sortable: true,
+          field: row => row.plan_status,
         },
         {
           name: 'created_at',
@@ -137,6 +148,16 @@ export default {
         return get_item;
       });
       this.dialog_edit[item.id] = false;
+      this.Methods_Notify_Update()
+    },
+    Item_Add_Plans(item){
+      this.items = this.items.map(get_item => {
+        if (get_item.id === item.id) {
+          get_item.plan_status = 1;
+        }
+        return get_item;
+      });
+      this.dialog_plan[item.id] = false;
       this.Methods_Notify_Update()
     },
     Item_Delete(id){
@@ -258,11 +279,18 @@ export default {
             <global_actions_activation_item @Set_Ok="Item_Activation(props.row.id)" :status="props.row.is_active"></global_actions_activation_item>
           </q-td>
         </template>
+        <template v-slot:body-cell-plan_status="props">
+          <q-td :props="props">
+            <global_chips_bool_status :status="props.row.plan_status"></global_chips_bool_status>
+          </q-td>
+        </template>
 
         <template v-slot:body-cell-tools="props">
           <q-td :props="props">
             <div class="text-center">
               <q-btn @click="dialog_edit[props.row.id] = true" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fas fa-edit" size="9px" round  />
+              <q-btn @click="dialog_plan[props.row.id] = true" glossy title="افزودن اشتراک" class="q-ma-xs" color="teal-8" icon="fas fa-star" size="9px" round  />
+
               <global_actions_delete_item @Set_Ok="Item_Delete(props.row.id)" :loading="delete_loading"></global_actions_delete_item>
             </div>
 
@@ -278,6 +306,21 @@ export default {
                 </q-card-section>
                 <q-card-section>
                   <users_edit :item="props.row" @Done="(item => { Item_Edit(item) })"></users_edit>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+            <q-dialog
+                v-model="dialog_plan[props.row.id]"
+                position="top"
+            >
+              <q-card style="width: 800px; max-width: 85vw;">
+
+                <q-card-section>
+                  <strong class="text-blue-8 font-15">افزودن اشتراک برای کاربر : <strong class="text-red-8">{{props.row.name}}</strong></strong>
+                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                </q-card-section>
+                <q-card-section>
+                  <users_add_plan :item="props.row" @Panel_Done="(item => { Item_Add_Plans(item) })"></users_add_plan>
                 </q-card-section>
               </q-card>
             </q-dialog>
