@@ -61,7 +61,7 @@ name: "Questions_Create",
       Stores_Questions().Create(this.items).then(response => {
         this.Methods_Notify_Create()
         this.loading = false;
-        // this.$router.push({name : 'questions'});
+        this.$router.push({name : 'questions'});
       }).catch(error => {
         if (error.response.status === 422) {
           this.Methods_Validation_Notify();
