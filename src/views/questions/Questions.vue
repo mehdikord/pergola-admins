@@ -2,11 +2,12 @@
 
 import {Stores_Questions} from "@/stores/questions/questions.js";
 import colors_create from "@/views/colors/Colors_Create.vue";
+import Editor from "@tinymce/tinymce-vue";
 
 
 export default {
   name: "Questions",
-  components: {colors_create},
+  components: {Editor, colors_create},
   mounted() {
     this.Items_Get();
   },
@@ -274,13 +275,7 @@ export default {
                 </q-card-section>
                 <q-card-section>
                   <div v-for="answer in props.row.answers" class="q-mb-lg">
-                    <div class="answer-box">
 
-                      <p class="text-justify">
-                        <q-icon v-if="answer.is_special" name="fas fa-star" color="red-7" class="font-20 q-mr-sm"></q-icon>
-                        {{answer.answer}}
-                      </p>
-                    </div>
                   </div>
                 </q-card-section>
                 <q-card-section>

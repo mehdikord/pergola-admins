@@ -50,6 +50,8 @@ name: "Questions_Create",
       answer_colors:[],
       answer_text:null,
       answer_oxidant:null,
+      answer_oxidant_percent:null,
+      answer_oxidant_time:null,
 
     }
   },
@@ -152,10 +154,12 @@ name: "Questions_Create",
       })
     },
     Add_Attributes() {
-      this.items.answers.push({id :this.item_counter,colors : this.answer_colors , oxidant : this.answer_oxidant , text:this.answer_text });
+      this.items.answers.push({id :this.item_counter,colors : this.answer_colors , oxidant : this.answer_oxidant ,oxidant_percent : this.answer_oxidant_percent,oxidant_time : this.answer_oxidant_time  , text:this.answer_text });
       this.item_counter++;
       this.answer_colors=[];
       this.answer_oxidant=null;
+      this.answer_oxidant_percent=null;
+      this.answer_oxidant_time=null;
       this.answer_text=null
       this.add_level_dialog = false
       return this.Methods_Notify_Message_Success('به لیست پاسخ ها اضافه شد')
@@ -456,9 +460,23 @@ name: "Questions_Create",
                     </q-banner>
                   </template>
                 </div>
-                <div class="q-mt-md">
-                  <q-input outlined v-model="answer_oxidant" type="text" label="مقدار اکسیدان">
-                  </q-input>
+                <div class="q-mt-lg">
+                  <div class="row">
+                    <div class="col-md-4 q-px-sm">
+                      <q-input outlined v-model="answer_oxidant" type="text" label="مقدار اکسیدان">
+                      </q-input>
+                    </div>
+                    <div class="col-md-4 q-px-sm">
+                      <q-input outlined v-model="answer_oxidant_percent" type="text" label="درصد اکسیدان">
+                      </q-input>
+                    </div>
+                    <div class="col-md-4 q-px-sm">
+                      <q-input outlined v-model="answer_oxidant_time" type="text" label="مدت زمان">
+                      </q-input>
+                    </div>
+
+                  </div>
+
                 </div>
                 <div class="q-mt-md">
                   <Editor

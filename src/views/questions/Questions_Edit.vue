@@ -1,16 +1,23 @@
 <script>
-import {Stores_Questions} from "@/stores/questions/questions.js";
-import {Stores_Colors} from "@/stores/colors/colors.js";
 import {Stores_Options} from "@/stores/options/options.js";
-
+import {Stores_Colors} from "@/stores/colors/colors.js";
+import {Stores_Questions} from "@/stores/questions/questions.js";
+import plans_create from "@/views/plans/Plans_Create.vue";
+import Editor from '@tinymce/tinymce-vue'
 export default {
-  name: "Questions_Edit",
+  name: "Questions_Create",
+  components: {plans_create,
+    Editor
+  },
   mounted() {
     this.Get_From_Colors();
     this.Get_To_Colors();
+    this.Get_Colors();
     this.Get_Options();
-    this.Add_Attributes();
+    this.Get_Item();
+    // this.Add_Attributes();
   },
+
   data() {
     return {
       items : {
@@ -20,11 +27,14 @@ export default {
         answers:[],
       },
       item_counter:1,
-      loading: true,
-      edit_loading: false,
+      get_loading: true,
+      loading: false,
+      add_level_dialog:false,
       errors: [],
       from_colors:[],
       to_colors:[],
+      colors : [],
+      all_colors : [],
       options:[],
       special_selection:[
         {
@@ -35,22 +45,43 @@ export default {
           label : "خیر",
           value : 0,
         }
-      ]
+      ],
+      add_color:null,
+      add_color_val:null,
+      add_file:null,
+      answer_colors:[],
+      answer_text:null,
+      answer_oxidant:null,
+      answer_oxidant_percent:null,
+      answer_oxidant_time:null,
+
     }
   },
   methods: {
-    Get_Item() {
-      Stores_Questions().Show(this.items).then(response => {
+    Get_Item(){
+      Stores_Questions().Show(this.$route.params.id).then(res=>{
+        this.items = res.data.result;
+        let new_items=[];
+        let new_answers=[];
 
-        this.loading = false;
-      }).catch(error => {
+        if (this.items.items.length>0){
+          this.items.items.forEach(item=>{
+            new_items[item.option.id]={id : item.option.id,value : item.value};
+          })
+          this.items.items = new_items;
+        }
+        if (this.items.answers.length>0){
+          this.items.answers.forEach(item=>{
+            item.answer.id = this.item_counter;
+            new_answers.push(item.answer);
+            this.item_counter++;
+          })
+        }
+        this.items.answers = new_answers;
+        this.get_loading = false;
 
-        this.loading=false;
-      });
 
-
-
-
+      })
     },
     Edit_Item() {
       if (this.items.from_color_id === this.items.to_color_id) {
@@ -60,8 +91,8 @@ export default {
       if(this.items.items.length){
         this.items.items = this.items.items.filter(item => item !== null);
       }
-      Stores_Questions().Create(this.items).then(response => {
-        this.Methods_Notify_Create()
+      Stores_Questions().Edit(this.items).then(response => {
+        this.Methods_Notify_Update()
         this.loading = false;
         this.$router.push({name : 'questions'});
       }).catch(error => {
@@ -92,11 +123,20 @@ export default {
         })
       })
     },
+    Get_Colors() {
+      Stores_Colors().All().then(res => {
+        this.all_colors = [];
+        this.all_colors = res.data.result;
+        this.colors = [];
+        res.data.result.forEach( item=> {
+          this.colors.push({value: item.id, label: item.name,color: item.color});
+        })
+      })
+    },
     Get_Options() {
       Stores_Options().All().then(res => {
         this.options = res.data.result;
         this.options.forEach( item=> {
-          this.items.items[item.id]={id : item.id,value : null}
           let new_items=[];
           item.items.forEach( get_item=> {
             new_items.push({value: get_item.id, label: get_item.item});
@@ -117,6 +157,17 @@ export default {
         }
       })
     },
+    Filter_Color_Select (val, update, abort) {
+      update(() => {
+        if (val){
+          this.colors =  this.colors.filter(item => {
+            return item.label !== null && item.label.match(val)
+          })
+        }else {
+          this.Get_Colors();
+        }
+      })
+    },
     Filter_To_Color_Select (val, update, abort) {
       update(() => {
         if (val){
@@ -129,22 +180,427 @@ export default {
       })
     },
     Add_Attributes() {
-      this.items.answers.push({id : this.item_counter,answer:null,is_special:0});
+      this.items.answers.push({id :this.item_counter,colors : this.answer_colors , oxidant : this.answer_oxidant ,oxidant_percent : this.answer_oxidant_percent,oxidant_time : this.answer_oxidant_time  , text:this.answer_text });
       this.item_counter++;
+      this.answer_colors=[];
+      this.answer_oxidant=null;
+      this.answer_oxidant_percent=null;
+      this.answer_oxidant_time=null;
+      this.answer_text=null
+      this.add_level_dialog = false
+      return this.Methods_Notify_Message_Success('به لیست پاسخ ها اضافه شد')
     },
     Remove_Attributes(id){
       this.items.answers = this.items.answers.filter(item => item.id !== id)
     },
+    Add_Answer_Color(){
+      if(!this.add_color || !this.add_color_val){
+        return this.Methods_Notify_Message_Error('مقادیر خواسته شده را تکمیل کنید')
+      }
+      let color_code = null;
+      let color_name = null;
+      this.all_colors.map(item => {
+        if (this.add_color === item.id){
+          color_code = item.color;
+          color_name = item.name;
+        }
+      })
+      this.answer_colors.push({
+        id : this.add_color,
+        name : color_name,
+        color : color_code,
+        val : this.add_color_val,
+      });
+      return this.Methods_Notify_Message_Success('به لیست تلفیق رنگ ها اضافه شد')
+    },
+    Remove_Answer_Color(id){
+      this.answer_colors = this.answer_colors.filter(item => item.id !== id)
+    },
+    async HandleImageUpload(blobInfo, success, failure) {
+      try {
+        const formData = new FormData();
+        formData.append("file", blobInfo.blob()); // ارسال تصویر به بک‌اند
+
+        const response = await axios.post("admins/questions/uploader", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.data && response.data.location) {
+          console.log(response.data.location);
+          success( {}); // TinyMCE باید مقدار URL معتبر دریافت کند
+        } else {
+          failure("خطا در دریافت آدرس تصویر");
+        }
+      } catch (error) {
+        failure("آپلود ناموفق بود");
+      }
+    }
 
   }
-
 }
 </script>
 
 <template>
+  <q-card>
+    <q-card-section>
+      <strong class="text-indigo-8 font-17">ویرایش پرسش </strong>
+      <global_actions_header_buttons @Index="this.$router.push({name : 'questions'})" :index="true"></global_actions_header_buttons>
+      <q-separator class="q-mt-xl"/>
+    </q-card-section>
+    <q-card-section>
+      <global_loading_shape v-if="get_loading"></global_loading_shape>
+      <div v-else class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 q-pa-sm">
+          <label for=""><strong>رنگ فعلی </strong></label>
+          <q-select
+              class="q-mt-sm"
+              outlined
+              :options="from_colors"
+              emit-value
+              map-options
+              use-input
+              v-model="items.from_color_id"
+              @filter="Filter_From_Color_Select"
+              position="top"
+              clearable
+              :error="this.Methods_Validation_Check(errors,'from_color_id')"
+              clear-icon="fas fa-times-circle text-red-8 font-22"
+          >
+            <template v-slot:option="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section avatar>
+                  <div class="tear" :style="'background-color:'+scope.opt.color"></div>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                  <span>
+                    {{ scope.opt.label }}
+                  </span>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+            <template v-slot:selected-item="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section avatar>
+                  <div class="tear-selected" :style="'background-color:'+scope.opt.color"></div>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                    <strong>
+                      {{ scope.opt.label }}
+                    </strong>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+            <template v-slot:error>
+              <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'from_color_id')" />
+            </template>
+          </q-select>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 q-pa-sm">
+          <label for=""><strong> رنگ جدید</strong></label>
+          <q-select
+              class="q-mt-sm"
+              outlined
+              :options="to_colors"
+              emit-value
+              map-options
+              use-input
+              @filter="Filter_To_Color_Select"
+              v-model="items.to_color_id"
+              position="top"
+              clearable
+              :error="this.Methods_Validation_Check(errors,'to_color_id')"
+              clear-icon="fas fa-times-circle text-red-8 font-22"
+          >
+            <template v-slot:option="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section avatar>
+                  <div class="tear" :style="'background-color:'+scope.opt.color"></div>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                  <span>
+                    {{ scope.opt.label }}
+                  </span>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+            <template v-slot:selected-item="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section avatar>
+                  <div class="tear-selected" :style="'background-color:'+scope.opt.color"></div>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                    <strong>
+                      {{ scope.opt.label }}
+                    </strong>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+            <template v-slot:error>
+              <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'to_color_id')" />
+            </template>
+          </q-select>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 q-pa-sm q-mt-sm">
+          <q-banner class="bg-teal-6 rounded-borders">
+            <strong class="text-white">وارد کردن اطلاعات </strong>
+            <p class="text-white q-mt-sm">
+              از ویژگی های مورد نظر مقادیر مناسب را برای فرایند انتخاب کنید
+            </p>
+          </q-banner>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 q-pa-sm q-mt-sm">
+          <div class="row">
+            <div v-for="option in options" class="col-md-4 col-xs-12 q-px-sm q-mb-sm">
+              <q-select
+                  class="q-mt-sm"
+                  outlined
+                  :label="option.name"
+                  :options="option.items"
+                  emit-value
+                  map-options
+                  use-input
+                  v-model="items.items[option.id].value"
+                  position="top"
+                  clearable
+                  clear-icon="fas fa-times-circle text-red-8 font-22"
+              >
+                <template v-slot:option="scope">
+                  <q-item v-bind="scope.itemProps">
+                    <q-item-section>
+                      <q-item-label>
+                        {{ scope.opt.label }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
 
+              </q-select>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 q-pa-sm q-mt-sm">
+          <strong class="text-red-7">ایجاد مراحل انجام کار :</strong>
+          <div class="q-mt-md">
+            <q-btn @click="add_level_dialog=true" dense color="blue-7" label="افزودن مرحله" icon="fas fa-plus-circle" rounded glossy></q-btn>
+          </div>
+          <q-dialog
+              v-model="add_level_dialog"
+              position="top"
+              full-width
+          >
+            <q-card style="width: 960px; max-width: 85vw;">
+              <q-card-section>
+                <strong class="text-indigo-8 font-15">افزودن مرحله پرسش</strong>
+                <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+              </q-card-section>
+              <q-card-section>
+                <strong class="text-red-7"> تلفیق رنگ ها : </strong>
+                <div class="row q-mt-sm">
+                  <div class="col-md-6 col-sm-12 col-xs-12 q-px-sm">
+                    <q-select
+                        outlined
+                        :options="colors"
+                        emit-value
+                        map-options
+                        use-input
+                        v-model="add_color"
+                        @filter="Filter_Color_Select"
+                        position="top"
+                        clearable
+                        clear-icon="fas fa-times-circle text-red-8 font-22"
+                    >
+                      <template v-slot:option="scope">
+                        <q-item v-bind="scope.itemProps">
+                          <q-item-section avatar>
+                            <div class="tear" :style="'background-color:'+scope.opt.color"></div>
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label>
+                            <span>
+                              {{ scope.opt.label }}
+                            </span>
+                            </q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                      <template v-slot:selected-item="scope">
+                        <q-item v-bind="scope.itemProps">
+                          <q-item-section avatar>
+                            <div class="tear-selected" :style="'background-color:'+scope.opt.color"></div>
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label>
+                              <strong>
+                                {{ scope.opt.label }}
+                              </strong>
+                            </q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col-md-6 col-sm-12 col-xs-12 q-px-sm">
+                    <q-input outlined v-model="add_color_val"  type="text" label="مقدار رنگ">
+                    </q-input>
+                  </div>
+                  <div class="col-12 q-px-sm text-right">
+                    <q-btn @click="Add_Answer_Color" class="q-mt-md font-13" color="teal-8" glossy size="sm" label="افزودن به لیست رنگ ها"></q-btn>
+                  </div>
+                </div>
+                <q-separator class="q-mt-md q-mb-md" />
+                <strong class="text-teal-8">لیست رنگ ها و مقادیر</strong>
+                <div class="q-mt-md">
+                  <template v-if="this.answer_colors.length">
+                    <div class="row">
+                      <div v-for="item in answer_colors" class="col-md-4 col-sm-6 col-xs-6 q-px-sm q-mb-sm">
+                        <div class="talfig-box row">
+                          <div class="col q-px-sm ">
+                            <q-icon class="font-18 cursor-pointer" color="red-8" name="fas fa-times" @click="Remove_Answer_Color(item.id)"></q-icon>
+                          </div>
+                          <div class="col q-px-sm ">
+                            <div class="tear-selected" :style="'background-color:'+item.color"></div>
+                          </div>
+                          <div class="col q-px-sm ">
+                            <div class="q-mt-sm"><strong class="q-mt-md" >{{item.name}}</strong></div>
+                          </div>
+                          <div class="col q-px-sm ">
+                            <div> : <q-chip color="red-8" text-color="white" size="sm" class="font-13">{{item.val}}</q-chip></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <q-banner class="rounded-borders bg-red-4 text-white text-center" >
+                      لیست تلفیق رنگ ها خالی است !
+                    </q-banner>
+                  </template>
+                </div>
+                <div class="q-mt-lg">
+                  <div class="row">
+                    <div class="col-md-4 q-px-sm">
+                      <q-input outlined v-model="answer_oxidant" type="text" label="مقدار اکسیدان">
+                      </q-input>
+                    </div>
+                    <div class="col-md-4 q-px-sm">
+                      <q-input outlined v-model="answer_oxidant_percent" type="text" label="درصد اکسیدان">
+                      </q-input>
+                    </div>
+                    <div class="col-md-4 q-px-sm">
+                      <q-input outlined v-model="answer_oxidant_time" type="text" label="مدت زمان">
+                      </q-input>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="q-mt-md">
+                  <Editor
+                      v-model="answer_text"
+                      api-key="pt855e3h7yxtda2zr97ldurjwwrotxv1gmy7afdhxegvcpu9"
+                      :init="{
+                        language: 'fa',
+                        directionality: 'rtl',
+                        plugins: 'lists link image table code help wordcount',
+                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image',
+                        content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
+                         images_upload_url: 'https://core.pergola.ir/admins/questions/uploader',
+                        automatic_uploads: true
+
+                      }"
+                  />
+                </div>
+                <div class="q-mt-lg q-mb-md text-right">
+                  <q-separator class="q-mt-md q-mb-md" />
+                  <q-btn @click="Add_Attributes" color="indigo" label="افزودن به لیست پاسخ ها" glossy ></q-btn>
+                </div>
+              </q-card-section>
+            </q-card>
+          </q-dialog>
+          <div class="q-mt-md">
+            <div v-for="answer in items.answers" class="answer-box q-mb-md">
+              <strong class="text-teal-8">لیست تلفیق رنگ ها : </strong>
+              <q-btn @click="Remove_Attributes(answer.id)" rounded glossy class="float-right font-12" color="red-7" label="حذف مرحله" icon="fas fa-trash" size="sm"></q-btn>
+              <div class="q-mt-sm">
+                <div class="row">
+                  <div v-for="color in answer.colors" class="col-md-3 col-sm-6 col-xs-6 q-px-sm q-mb-sm">
+                    <div class="talfig-box row">
+                      <div class="col q-px-sm ">
+                        <div class="tear-selected" :style="'background-color:'+color.color"></div>
+                      </div>
+                      <div class="col q-px-sm ">
+                        <div class="q-mt-sm"><strong class="q-mt-md text-dark" >{{color.name}}</strong></div>
+                      </div>
+                      <div class="col q-px-sm ">
+                        <div> : <q-chip color="blue-8" text-color="white" size="sm" class="font-13">{{color.val}}</q-chip></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <q-separator class="q-mt-md q-mb-md" />
+              <div>
+                <strong class="text-teal-8">مقدار اکسیدان : </strong>
+                <strong class="text-red-8">{{answer.oxidant}}</strong>
+                <span class="text-dark q-ml-sm">میل</span>
+              </div>
+              <q-separator class="q-mt-md q-mb-md" />
+              <div>
+                <strong class="text-teal-8">درصد اکسیدان : </strong>
+                <strong class="text-red-8">{{answer.oxidant_percent}} </strong>
+                <span class="text-dark q-ml-sm">درصد</span>
+              </div>
+              <q-separator class="q-mt-md q-mb-md" />
+              <div>
+                <strong class="text-teal-8">مدت زمان اکسیدان : </strong>
+                <strong class="text-red-8">{{answer.oxidant_time}}</strong>
+              </div>
+              <q-separator class="q-mt-md q-mb-md" />
+              <div>
+                <strong class="text-teal-8">توضیحات : </strong>
+                <div class="text-dark q-mt-md" v-html="answer.text"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 q-pa-sm q-mt-md">
+          <q-btn @click="Edit_Item" color="indigo-8" glossy rounded label="ویرایش پرسش" icon="fas fa-edit"></q-btn>
+        </div>
+      </div>
+    </q-card-section>
+  </q-card>
 </template>
 
 <style scoped>
+
+.tear-selected {
+  width: 32px;
+  aspect-ratio:1;
+  border-radius: 0 50% 50% 50%;
+}
+.talfig-box{
+  border-radius: 7px;
+  padding:11px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  background-color: rgba(0,0,0,0.03);
+}
+.answer-box{
+  border-radius: 7px;
+  padding: 14px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: rgba(0,0,0,0.03);
+}
 
 </style>
