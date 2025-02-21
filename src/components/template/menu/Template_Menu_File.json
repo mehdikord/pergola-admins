@@ -53,6 +53,17 @@
     "en" : "Dashboards"
   },
   {
+    "fa" : "گروه بندی رنگ ها",
+    "en" : "Colors management",
+    "icon" : "fas fa-boxes",
+    "route_path" : "/colors/groups",
+    "route_name" : "colors_groups",
+    "level"      : 0,
+    "subs" : [
+
+    ]
+  },
+  {
     "fa" : "مدیریت رنگ ها",
     "en" : "Colors management",
     "icon" : "fas fa-palette",

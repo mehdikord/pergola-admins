@@ -6,6 +6,7 @@ import auth from "@/router/routes/auth/auth.js"
 import dashboard from "@/router/routes/dashboard/dashboard.js";
 import users from "@/router/routes/users/users.js";
 import colors from "@/router/routes/colors/colors.js";
+import color_groups from "@/router/routes/colors/colors_groups.js";
 import options from "@/router/routes/options/options.js";
 import questions from "@/router/routes/questions/questions.js";
 import plans from "@/router/routes/plans/plans.js";
@@ -19,6 +20,7 @@ const router = createRouter({
       ...dashboard,
       ...users,
       ...colors,
+      ...color_groups,
       ...options,
       ...questions,
       ...plans,

@@ -10,6 +10,8 @@ import { Quasar , Notify ,LoadingBar, Dialog} from 'quasar'
 import quasarLang from 'quasar/lang/fa-IR'
 import '@/includes/axios.js';
 import quasarIconSet from 'quasar/icon-set/mdi-v7'
+
+
 // Import icon libraries
 import '@quasar/extras/mdi-v7/mdi-v7.css'
 import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
@@ -115,6 +117,8 @@ app.use(Quasar, {
 app.mixin(before_created);
 app.mixin(methods);
 window.moment = moment;
+
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Globals Filters

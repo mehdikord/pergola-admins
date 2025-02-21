@@ -1,14 +1,15 @@
 <script>
 
-import {Stores_Colors} from "@/stores/colors/colors.js";
-import Colors_Create from "@/views/colors/Colors_Create.vue";
-import Colors_Edit from "@/views/colors/Colors_Edit.vue";
+
+import Color_Groups_Create from "@/views/color_groups/Color_Groups_Create.vue";
+import Color_Groups_Edit from "@/views/color_groups/Color_Groups_Edit.vue";
+import {Stores_Color_Group} from "@/stores/colors/color_groups.js";
 
 export default {
-  name: "Colors",
+  name: "Color_Groups",
   components: {
-    'colors_create' : Colors_Create,
-    'colors_edit' : Colors_Edit
+    'color_groups_create' : Color_Groups_Create,
+    'color_groups_edit' : Color_Groups_Edit
   },
   mounted() {
     this.Items_Get();
@@ -28,7 +29,6 @@ export default {
       activation_loading:false,
       dialog_create:false,
       dialog_edit:[],
-      dialog_image:[],
       items_selected:[],
       selected: [],
       pagination: {
@@ -50,50 +50,18 @@ export default {
         {
           name: 'name',
           value: 'name',
-          label: 'عنوان رنگ',
+          label: 'عنوان گروه',
           align: 'left',
           sortable: true,
           field: row => row.name,
         },
         {
-          name: 'group',
-          value: 'group',
-          label: 'گروه',
-          align: 'left',
-          sortable: false,
-          field: row => row.group,
-        },
-        {
-          name: 'color',
-          value: 'color',
-          label: 'کد',
-          align: 'left',
-          sortable: false,
-          field: row => row.color,
-        },
-        {
-          name: 'current_choices',
-          value: 'current_choices',
-          label: 'انتخاب های فعلی',
-          align: 'left',
-          sortable: false,
-          field: row => row.current_choices,
-        },
-        {
-          name: 'convert_choices',
-          value: 'convert_choices',
-          label: 'انتخاب های تبدیل',
-          align: 'left',
-          sortable: false,
-          field: row => row.convert_choices,
-        },
-        {
-          name: 'is_active',
-          value: 'is_active',
-          label: 'وضعیت',
+          name: 'description',
+          value: 'description',
+          label: 'توضیحات',
           align: 'left',
           sortable: true,
-          field: row => row.is_active,
+          field: row => row.description,
         },
         {
           name: 'tools',
@@ -103,8 +71,6 @@ export default {
         }
       ],
       visible_columns:[],
-      edit_image:null,
-      edit_image_loading:null,
     }
   },
   methods :{
@@ -116,7 +82,7 @@ export default {
         this.query_params.page = page;
       }
 
-      Stores_Colors().Index(this.query_params).then(res=>{
+      Stores_Color_Group().Index(this.query_params).then(res=>{
         this.items = res.data.result.data;
         this.pagination.page = res.data.result.current_page;
         this.pagination.rowsPerPage = res.data.result.per_page;
@@ -142,53 +108,9 @@ export default {
       this.dialog_edit[item.id] = false;
       this.Methods_Notify_Update()
     },
-    Item_Edit_Image(item){
-      if (!this.edit_image){
-        return this.Methods_Notify_Message_Error("برای ویرایش فایل تصویر را انتخاب کنید")
-      }
-      this.edit_image_loading=true;
-      let data = {
-        id: item.id,
-        image : this.edit_image
-      }
-      Stores_Colors().Edit_image(data).then(res=>{
-        this.items = this.items.map(get_item => {
-          if (get_item.id === item.id) {
-            return res.data.result;
-          }
-          return get_item;
-        });
-        this.dialog_image[item.id] = false;
-        this.Methods_Notify_Update()
-        this.edit_image_loading=false;
-      }).catch(error => {
-        this.Methods_Notify_Error_Server();
-        this.edit_image_loading=false;
-      })
-
-    },
-    Item_Delete_Image(item){
-      let data = {
-        id: item.id,
-      }
-      Stores_Colors().Edit_image(data).then(res=>{
-        this.items = this.items.map(get_item => {
-          if (get_item.id === item.id) {
-            return res.data.result;
-          }
-          return get_item;
-        });
-        this.dialog_image[item.id] = false;
-        this.Methods_Notify_Update()
-      }).catch(error => {
-        this.Methods_Notify_Error_Server();
-      })
-
-    },
-
     Item_Delete(id){
       this.delete_loading=true;
-      Stores_Colors().Delete(id).then(res => {
+      Stores_Color_Group().Delete(id).then(res => {
         this.items = this.items.filter(item => {
           return item.id !== id;
         })
@@ -206,7 +128,7 @@ export default {
     },
     Item_Activation(id){
       this.activation_loading=true;
-      Stores_Colors().Activation(id).then(res => {
+      Stores_Color_Group().Activation(id).then(res => {
         this.items = this.items.filter(item => {
           if (item.id === id){
             item.is_active = !item.is_active;
@@ -266,7 +188,7 @@ export default {
             <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
           </q-card-section>
           <q-card-section>
-            <colors_create @Done="(item => { Item_Create(item) })"></colors_create>
+            <color_groups_create @Done="(item => { Item_Create(item) })"></color_groups_create>
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -294,16 +216,8 @@ export default {
         <template v-slot:body-cell-name="props">
           <q-td :props="props">
             <div class="row">
-              <q-img v-if="props.row.image" :src="props.row.image" width="60px" class="rounded-borders" />
               <div class="q-ml-sm q-mt-sm"><strong>{{ props.row.name }}</strong></div>
             </div>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-group="props">
-          <q-td :props="props">
-            <template v-if="props.row.group">
-              <strong class="text-indigo-8 font-14">{{props.row.group.name}}</strong>
-            </template>
           </q-td>
         </template>
         <template v-slot:body-cell-color="props">
@@ -330,7 +244,6 @@ export default {
           <q-td :props="props">
             <div class="text-center">
               <q-btn @click="dialog_edit[props.row.id] = true" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fas fa-edit" size="9px" round  />
-              <q-btn @click="dialog_image[props.row.id] = true" glossy title="ویرایش تصویر" class="q-ma-xs" color="purple-6" icon="fas fa-image" size="9px" round  />
               <global_actions_delete_item @Set_Ok="Item_Delete(props.row.id)" :loading="delete_loading"></global_actions_delete_item>
             </div>
 
@@ -345,34 +258,7 @@ export default {
                   <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
                 </q-card-section>
                 <q-card-section>
-                  <colors_edit :item="props.row" @Done="(item => { Item_Edit(item) })"></colors_edit>
-                </q-card-section>
-              </q-card>
-            </q-dialog>
-            <q-dialog
-                v-model="dialog_image[props.row.id]"
-                position="top"
-            >
-              <q-card style="width: 860px; max-width: 85vw;">
-                <q-card-section>
-                  <strong class="text-purple-8 font-15">ویرایش تصویر : <strong class="text-red-8">{{props.row.name}}</strong></strong>
-                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
-                </q-card-section>
-                <q-card-section>
-
-                  <q-file outlined bottom-slots v-model="edit_image" label="انتخاب تصویر رنگ" counter>
-                    <template v-slot:prepend>
-                      <q-icon name="fas fa-upload" @click.stop.prevent />
-                    </template>
-                    <template v-slot:append>
-                      <q-icon name="close" @click.stop.prevent="edit_image = null" class="cursor-pointer" />
-                    </template>
-                  </q-file>
-                  <div class="q-mt-lg text-right">
-                    <q-btn @click="Item_Delete_Image(props.row)" color="red-6" glossy icon="fas fa-trash" label="حذف تصویر فعلی" class="q-mr-sm"></q-btn>
-                    <q-btn @click="Item_Edit_Image(props.row)" :loading="edit_image_loading" color="indigo-6" glossy icon="fas fa-check" label="ویراش تصویر" class="q-mr-sm"></q-btn>
-                    <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
-                  </div>
+                  <color_groups_edit :item="props.row" @Done="(item => { Item_Edit(item) })"></color_groups_edit>
                 </q-card-section>
               </q-card>
             </q-dialog>

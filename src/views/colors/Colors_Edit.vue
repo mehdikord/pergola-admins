@@ -1,10 +1,12 @@
 <script>
 import {Stores_Colors} from "@/stores/colors/colors.js";
+import {Stores_Color_Group} from "@/stores/colors/color_groups.js";
 
 export default {
   name: "Colors_Edit",
   props:['item'],
   mounted() {
+    this.Get_Groups();
     if (this.item) {
       this.items.id = this.item.id;
       this.Get_Item();
@@ -13,6 +15,7 @@ export default {
   data() {
     return {
       items : {
+        color_group_id : null,
         id:null,
         name : null,
         color : null,
@@ -21,6 +24,8 @@ export default {
       loading: true,
       edit_loading: false,
       errors: [],
+      groups:[],
+
     }
   },
   methods: {
@@ -45,6 +50,26 @@ export default {
         this.edit_loading=false;
       });
 
+    },
+    Filter_Group_Select (val, update, abort) {
+      update(() => {
+        if (val){
+          this.groups =  this.groups.filter(item => {
+            return item.label !== null && item.label.match(val)
+          })
+        }else {
+          this.Get_Groups();
+        }
+      })
+    },
+    Get_Groups() {
+      Stores_Color_Group().All().then(res => {
+        this.groups = [];
+        res.data.result.forEach(item => {
+          this.groups.push({label: item.name, value: item.id});
+        })
+      })
+
     }
   }
 }
@@ -60,8 +85,41 @@ export default {
           <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'name')" />
         </template>
       </q-input>
-
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
+      <q-select
+          class="q-mt-sm"
+          label="انتخاب گروه بندی "
+          outlined
+          :options="groups"
+          emit-value
+          map-options
+          use-input
+          @filter="Filter_Group_Select"
+          v-model="items.color_group_id"
+          position="top"
+          clearable
+          :error="this.Methods_Validation_Check(errors,'color_group_id')"
+          clear-icon="fas fa-times-circle text-red-8 font-22"
+      >
+        <template v-slot:option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section>
+              <q-item-label>
+                  <span>
+                    {{ scope.opt.label }}
+                  </span>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:error>
+          <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'color_group_id')" />
+        </template>
+      </q-select>
+    </div>
+
     <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
       <q-input
           :error="this.Methods_Validation_Check(errors,'color')" outlined v-model="items.color" label="انتخاب رنگ"

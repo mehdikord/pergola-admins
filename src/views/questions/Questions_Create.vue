@@ -3,10 +3,12 @@ import {Stores_Options} from "@/stores/options/options.js";
 import {Stores_Colors} from "@/stores/colors/colors.js";
 import {Stores_Questions} from "@/stores/questions/questions.js";
 import plans_create from "@/views/plans/Plans_Create.vue";
-
+import Editor from '@tinymce/tinymce-vue'
 export default {
 name: "Questions_Create",
-  components: {plans_create},
+  components: {plans_create,
+    Editor
+  },
   mounted() {
     this.Get_From_Colors();
     this.Get_To_Colors();
@@ -14,6 +16,7 @@ name: "Questions_Create",
     this.Get_Options();
     // this.Add_Attributes();
   },
+
   data() {
     return {
       items : {
@@ -46,7 +49,8 @@ name: "Questions_Create",
       add_file:null,
       answer_colors:[],
       answer_text:null,
-      answer_oxidant:null
+      answer_oxidant:null,
+
     }
   },
   methods: {
@@ -182,8 +186,26 @@ name: "Questions_Create",
     Remove_Answer_Color(id){
       this.answer_colors = this.answer_colors.filter(item => item.id !== id)
     },
-    Add_Answer_File(){
+    async HandleImageUpload(blobInfo, success, failure) {
+      try {
+        const formData = new FormData();
+        formData.append("file", blobInfo.blob()); // ارسال تصویر به بک‌اند
 
+        const response = await axios.post("admins/questions/uploader", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.data && response.data.location) {
+          console.log(response.data.location);
+          success( {}); // TinyMCE باید مقدار URL معتبر دریافت کند
+        } else {
+          failure("خطا در دریافت آدرس تصویر");
+        }
+      } catch (error) {
+        failure("آپلود ناموفق بود");
+      }
     }
 
   }
@@ -344,6 +366,7 @@ name: "Questions_Create",
           <q-dialog
               v-model="add_level_dialog"
               position="top"
+              full-width
           >
             <q-card style="width: 960px; max-width: 85vw;">
               <q-card-section>
@@ -438,25 +461,21 @@ name: "Questions_Create",
                   </q-input>
                 </div>
                 <div class="q-mt-md">
-                  <q-input outlined v-model="answer_text" type="textarea" rows="3" label="توضیحات">
-                  </q-input>
+                  <Editor
+                      v-model="answer_text"
+                      api-key="pt855e3h7yxtda2zr97ldurjwwrotxv1gmy7afdhxegvcpu9"
+                      :init="{
+                        language: 'fa',
+                        directionality: 'rtl',
+                        plugins: 'lists link image table code help wordcount',
+                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image',
+                        content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
+                         images_upload_url: 'http://localhost:8000/admins/questions/uploader',
+                        automatic_uploads: true
+
+                      }"
+                  />
                 </div>
-<!--               <div class="q-mt-md">-->
-<!--                <strong> فایل ها : </strong>-->
-<!--                 <div class="q-mt-md">-->
-<!--                   <q-file outlined bottom-slots v-model="add_file" label="انتخاب فایل" counter>-->
-<!--                     <template v-slot:prepend>-->
-<!--                       <q-icon name="fas fa-file" @click.stop.prevent />-->
-<!--                     </template>-->
-<!--                     <template v-slot:append>-->
-<!--                       <q-icon name="close" @click.stop.prevent="add_file = null" class="cursor-pointer" />-->
-<!--                     </template>-->
-<!--                   </q-file>-->
-<!--                 </div>-->
-<!--                 <div class="text-right">-->
-<!--                   <q-btn @click="Add_Answer_File" class="q-mt-sm font-13" color="teal-8" glossy size="sm" label="افزودن به لیست فایل ها"></q-btn>-->
-<!--                 </div>-->
-<!--               </div>-->
                 <div class="q-mt-lg q-mb-md text-right">
                   <q-separator class="q-mt-md q-mb-md" />
                   <q-btn @click="Add_Attributes" color="indigo" label="افزودن به لیست پاسخ ها" glossy ></q-btn>
@@ -493,7 +512,7 @@ name: "Questions_Create",
               <q-separator class="q-mt-md q-mb-md" />
               <div>
                 <strong class="text-teal-8">توضیحات : </strong>
-                <p class="text-dark q-mt-md">{{answer.text}}</p>
+                <div class="text-dark q-mt-md" v-html="answer.text"></div>
               </div>
             </div>
           </div>
@@ -508,6 +527,7 @@ name: "Questions_Create",
 </template>
 
 <style scoped>
+
 .tear-selected {
   width: 32px;
   aspect-ratio:1;
@@ -525,4 +545,5 @@ name: "Questions_Create",
   border: 1px solid rgba(0, 0, 0, 0.5);
   color: rgba(0,0,0,0.03);
 }
+
 </style>
