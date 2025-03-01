@@ -210,8 +210,26 @@ name: "Questions_Create",
       } catch (error) {
         failure("آپلود ناموفق بود");
       }
-    }
+    },
+    filePickerCallback(callback, value, meta) {
+      // باز کردن پنجره laravel-filemanager
+      const width = 900;
+      const height = 600;
+      const url = 'http:localhost:8000/laravel-filemanager?type=' + meta.filetype;
 
+      // باز کردن پنجره جدید
+      window.open(
+          "https://core.pergola.ir/laravel-filemanager?type="+meta.filetype,
+          'FileManager',
+          `width=${width},height=${height},resizable=yes,scrollbars=yes`
+      );
+
+      // دریافت URL فایل انتخاب شده از laravel-filemanager
+      window.SetUrl = (fileUrl) => {
+        callback(fileUrl); // ارسال URL به TinyMCE
+        window.SetUrl = null; // پاک کردن تابع پس از استفاده
+      };
+    }
   }
 }
 </script>
@@ -486,11 +504,9 @@ name: "Questions_Create",
                         language: 'fa',
                         directionality: 'rtl',
                         plugins: 'lists link image table code help wordcount',
-                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image',
+                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image ',
                         content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
-                         images_upload_url: 'https://core.pergola.ir/admins/questions/uploader',
-                        automatic_uploads: true
-
+                        file_picker_callback:filePickerCallback, // اضافه کردن این خط
                       }"
                   />
                 </div>

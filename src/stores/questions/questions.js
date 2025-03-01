@@ -38,6 +38,15 @@ export const Stores_Questions = defineStore('questions',{
                 })
             })
         },
+        Edit_Answers(params){
+            return new Promise((resolve, reject) => {
+                axios.post('admins/questions/'+params.id+"/answers",params).then(response =>{
+                    return resolve(response);
+                }).catch(error =>{
+                    return reject(error);
+                })
+            })
+        },
 
         Delete(id){
             return new Promise((resolve, reject) => {

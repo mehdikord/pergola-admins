@@ -2,12 +2,16 @@
 
 import {Stores_Questions} from "@/stores/questions/questions.js";
 import colors_create from "@/views/colors/Colors_Create.vue";
-import Editor from "@tinymce/tinymce-vue";
+import Question_Answers from "@/views/questions/Question_Answers.vue";
+
 
 
 export default {
   name: "Questions",
-  components: {Editor, colors_create},
+  components: {
+    colors_create,
+    'question_answers' : Question_Answers,
+  },
   mounted() {
     this.Items_Get();
   },
@@ -266,22 +270,15 @@ export default {
             <q-dialog
                 v-model="dialog_answers[props.row.id]"
                 position="top"
+                full-width
             >
               <q-card style="width: 1024px; max-width: 85vw;">
-
                 <q-card-section>
-                  <strong class="text-deep-orange-8 font-15">مشاهده مراحل </strong>
+                  <strong class="text-indigo font-16">مشاهده و ویرایش مراحل </strong>
                   <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
                 </q-card-section>
                 <q-card-section>
-                  <div v-for="answer in props.row.answers" class="q-mb-lg">
-
-                  </div>
-                </q-card-section>
-                <q-card-section>
-                  <div class="text-right">
-                    <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
-                  </div>
+                  <question_answers @Done="dialog_answers[props.row.id] = false" :id="props.row.id" :answers="props.row.answers"></question_answers>
                 </q-card-section>
               </q-card>
             </q-dialog>
