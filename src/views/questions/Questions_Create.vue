@@ -1,4 +1,5 @@
 <script>
+
 import {Stores_Options} from "@/stores/options/options.js";
 import {Stores_Colors} from "@/stores/colors/colors.js";
 import {Stores_Questions} from "@/stores/questions/questions.js";
@@ -212,25 +213,19 @@ name: "Questions_Create",
       }
     },
     filePickerCallback(callback, value, meta) {
-      // باز کردن پنجره laravel-filemanager
       const width = 900;
       const height = 600;
-      const url = 'http:localhost:8000/laravel-filemanager?type=' + meta.filetype;
+      const fileManagerUrl = '/laravel-filemanager?type='+ meta.filetype;
 
-      // باز کردن پنجره جدید
-      window.open(
-          "https://core.pergola.ir/laravel-filemanager?type="+meta.filetype,
-          'FileManager',
-          `width=${width},height=${height},resizable=yes,scrollbars=yes`
-      );
-
-      // دریافت URL فایل انتخاب شده از laravel-filemanager
-      window.SetUrl = (fileUrl) => {
-        callback(fileUrl); // ارسال URL به TinyMCE
-        window.SetUrl = null; // پاک کردن تابع پس از استفاده
+      // باز کردن پنجره فایل منیجر
+      const fileManagerWindow = window.open(fileManagerUrl, 'FileManager', `width=${width},height=${height}`);
+      window.SetUrl = function(url) {
+        // این تابع URL فایل را از فایل منیجر دریافت می‌کند
+        console.log('فایل انتخاب شد:', url);
+        callback(url[0].url);
       };
-    }
-  }
+
+    }  }
 }
 </script>
 
@@ -506,7 +501,7 @@ name: "Questions_Create",
                         plugins: 'lists link image table code help wordcount',
                         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image ',
                         content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
-                        file_picker_callback:filePickerCallback, // اضافه کردن این خط
+                        file_picker_callback:this.filePickerCallback, // اضافه کردن این خط
                       }"
                   />
                 </div>

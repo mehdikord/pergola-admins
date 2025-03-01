@@ -29,4 +29,13 @@ export default defineConfig({
     'jsnext'
   ]
   },
+  server: {
+    proxy: {
+      '/laravel-filemanager': {
+        target: 'core.pergola.ir',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 })
