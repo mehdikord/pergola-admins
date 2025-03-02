@@ -31,8 +31,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/laravel-filemanager': {
-        target: 'https://core.pergola.ir',
+      'laravel-filemanager': {
+        target: 'http://core.pergola.ir',
         changeOrigin: true,
         secure: false,
       }
