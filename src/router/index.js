@@ -10,6 +10,8 @@ import color_groups from "@/router/routes/colors/colors_groups.js";
 import options from "@/router/routes/options/options.js";
 import questions from "@/router/routes/questions/questions.js";
 import plans from "@/router/routes/plans/plans.js";
+import admins from "@/router/routes/admins/admins.js";
+import invoices from "@/router/routes/invoices/invoices.js";
 
 
 
@@ -24,6 +26,8 @@ const router = createRouter({
       ...options,
       ...questions,
       ...plans,
+      ...admins,
+      ...invoices,
 
   ],
 })

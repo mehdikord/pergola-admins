@@ -31,8 +31,8 @@
       {
         "fa" : "مدیران",
         "en" : "Managers",
-        "route_path" : "/",
-        "route_name" : "managers",
+        "route_path" : "/admins",
+        "route_name" : "admins",
         "feature" : "1001",
         "icon" : "fas fa-user-tie font-20",
         "level"      : 0.5
@@ -102,6 +102,22 @@
     "icon" : "fas fa-star",
     "route_path" : "/plans",
     "route_name" : "plans",
+    "level"      : 0,
+    "subs" : [
+
+    ]
+  },
+  {
+    "title" : true,
+    "fa" : "امور و مدیریت مالی",
+    "en" : "Dashboards"
+  },
+  {
+    "fa" : "لیست فاکتور ها",
+    "en" : "Invoices",
+    "icon" : "fas fa-file-invoice-dollar",
+    "route_path" : "/invoices",
+    "route_name" : "invoices",
     "level"      : 0,
     "subs" : [
 
