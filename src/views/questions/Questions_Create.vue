@@ -215,7 +215,7 @@ name: "Questions_Create",
     filePickerCallback(callback, value, meta) {
       const width = 900;
       const height = 600;
-      const fileManagerUrl = 'laravel-filemanager?type='+ meta.filetype;
+      const fileManagerUrl = 'https://core.pergola.ir/laravel-filemanager?type='+ meta.filetype;
 
       // باز کردن پنجره فایل منیجر
       const fileManagerWindow = window.open(fileManagerUrl, 'FileManager', `width=${width},height=${height}`);
