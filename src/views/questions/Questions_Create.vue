@@ -215,13 +215,11 @@ name: "Questions_Create",
     filePickerCallback(callback, value, meta) {
       const width = 900;
       const height = 600;
-      const fileManagerUrl = '/laravel-filemanager?type='+ meta.filetype;
+      const fileManagerUrl = 'laravel-filemanager?type='+ meta.filetype;
 
       // باز کردن پنجره فایل منیجر
       const fileManagerWindow = window.open(fileManagerUrl, 'FileManager', `width=${width},height=${height}`);
       window.SetUrl = function(url) {
-        // این تابع URL فایل را از فایل منیجر دریافت می‌کند
-        console.log('فایل انتخاب شد:', url);
         callback(url[0].url);
       };
 
