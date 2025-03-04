@@ -14,7 +14,7 @@ import quasarIconSet from 'quasar/icon-set/mdi-v7'
 
 // Import icon libraries
 import '@quasar/extras/mdi-v7/mdi-v7.css'
-import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
+
 import '@quasar/extras/material-icons/material-icons.css'
 // Import Quasar css
 import 'quasar/dist/quasar.css'

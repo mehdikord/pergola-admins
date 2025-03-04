@@ -7,7 +7,7 @@
   {
     "fa" : "داشبورد",
     "en" : "Dashboard",
-    "icon" : "fas fa-dashboard",
+    "icon" : "fa-duotone fa-light fa-dashboard",
     "route_path" : "/",
     "route_name" : "home",
     "level"      : 0,
@@ -23,7 +23,7 @@
   {
     "fa" : "کابران",
     "en" : "Users",
-    "icon" : "fas fa-users",
+    "icon" : "fa-duotone fa-light fa-users",
     "route_path" : "/",
     "route_name" : "",
     "level"      : 0,
@@ -34,14 +34,14 @@
         "route_path" : "/admins",
         "route_name" : "admins",
         "feature" : "1001",
-        "icon" : "fas fa-user-tie font-20",
+        "icon" : "fa-duotone fa-light fa-user-tie font-20",
         "level"      : 0.5
       },
       {
         "fa" : "کابران",
         "en" : "Users",
         "route_path" : "/users",
-        "icon" : "fas fa-user-group font-20",
+        "icon" : "fa-duotone fa-light fa-user-group font-20",
         "route_name" : "users",
         "level"      : 0.5
       }
@@ -55,7 +55,7 @@
   {
     "fa" : "گروه بندی رنگ ها",
     "en" : "Colors management",
-    "icon" : "fas fa-boxes",
+    "icon" : "fa-duotone fa-light fa-boxes",
     "route_path" : "/colors/groups",
     "route_name" : "colors_groups",
     "level"      : 0,
@@ -66,7 +66,7 @@
   {
     "fa" : "مدیریت رنگ ها",
     "en" : "Colors management",
-    "icon" : "fas fa-palette",
+    "icon" : "fa-duotone fa-light fa-palette",
     "route_path" : "/colors",
     "route_name" : "colors",
     "level"      : 0,
@@ -77,7 +77,7 @@
   {
     "fa" : "مدیریت ویژگی ها",
     "en" : "Options management",
-    "icon" : "fas fa-list",
+    "icon" : "fa-duotone fa-light fa-list",
     "route_path" : "/options",
     "route_name" : "options",
     "level"      : 0,
@@ -88,7 +88,7 @@
   {
     "fa" : "پرسش ها",
     "en" : "Questions",
-    "icon" : "fas fa-question-circle",
+    "icon" : "fa-duotone fa-light fa-question-circle",
     "route_path" : "/questions",
     "route_name" : "questions",
     "level"      : 0,
@@ -99,7 +99,7 @@
   {
     "fa" : "اشتراک ها",
     "en" : "Plans",
-    "icon" : "fas fa-star",
+    "icon" : "fa-duotone fa-light fa-star",
     "route_path" : "/plans",
     "route_name" : "plans",
     "level"      : 0,
@@ -115,7 +115,7 @@
   {
     "fa" : "لیست فاکتور ها",
     "en" : "Invoices",
-    "icon" : "fas fa-file-invoice-dollar",
+    "icon" : "fa-duotone fa-light fa-file-invoice-dollar",
     "route_path" : "/invoices",
     "route_name" : "invoices",
     "level"      : 0,

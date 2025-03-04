@@ -6,8 +6,7 @@ const dashboard = [
         name: 'home',
         component : Dashboard,
         meta:{
-            title : 'test',
-            subtitle : 'test tes'
+            title : 'داشبورد',
         }
     },
 
