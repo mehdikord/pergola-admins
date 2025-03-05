@@ -3,6 +3,7 @@
 import {Stores_Questions} from "@/stores/questions/questions.js";
 import colors_create from "@/views/colors/Colors_Create.vue";
 import Question_Answers from "@/views/questions/Question_Answers.vue";
+import {useQuasar} from "quasar";
 
 
 
@@ -17,6 +18,7 @@ export default {
   },
   data(){
     return {
+      $q: useQuasar(),
       items:[],
       dialog_items : [],
       dialog_answers : [],
@@ -125,7 +127,6 @@ export default {
       this.dialog_create = false;
       this.Methods_Notify_Create()
     },
-
     Item_Delete(id){
       this.delete_loading=true;
       Stores_Questions().Delete(id).then(res => {
@@ -183,9 +184,37 @@ export default {
       this.Items_Get(rowsPerPage,page);
 
     },
+    Item_Copy(id){
+      this.$q.dialog({
+        title: 'آیا اطمینان دارید',
+        message: 'آیتم مورد کپی شود ؟',
+        ok: {
+          glossy: true,
+          color : "green-7"
+        },
+        cancel: {
+          glossy: true,
+          color: 'negative'
+        },
+        persistent: true
+      }).onOk(() => {
 
-  }
+        Stores_Questions().Copy(id).then(res => {
+          this.items.unshift(res.data.result);
+          this.Methods_Notify_Create()
 
+        }).catch(error => {
+          this.Methods_Notify_Error_Server();
+        })
+
+
+      }).onCancel(() => {
+
+      }).onDismiss(() => {
+
+      })
+    },
+    }
 
 }
 </script>
@@ -293,6 +322,7 @@ export default {
           <q-td :props="props">
             <div class="text-center">
               <q-btn :to="{name : 'questions_edit',params:{id : props.row.id}}" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fa-duotone fa-light fa-edit" size="9px" round  />
+              <q-btn @click="Item_Copy(props.row.id)" glossy title="کپی آیتم" class="q-ma-xs" color="teal-8" icon="fa-duotone fa-light fa-copy" size="9px" round  />
               <global_actions_delete_item @Set_Ok="Item_Delete(props.row.id)" :loading="delete_loading"></global_actions_delete_item>
             </div>
 
