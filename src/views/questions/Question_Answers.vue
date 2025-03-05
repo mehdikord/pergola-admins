@@ -282,7 +282,7 @@ export default {
                         plugins: 'lists link image table code help wordcount',
                         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image',
                         content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
-                         images_upload_url: 'https://core.pergola.ir/admins/questions/uploader',
+                        images_upload_url: 'https://core.pergola.ir/admins/questions/uploader',
                         automatic_uploads: true
 
                       }"
