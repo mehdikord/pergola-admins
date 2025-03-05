@@ -217,20 +217,18 @@ name: "Questions_Create",
         failure("آپلود ناموفق بود");
       }
     },
-
     filePickerCallback(callback, value, meta) {
       const width = window.innerWidth * 0.8;
       const height = window.innerHeight * 0.8;
       const url = 'https://core.pergola.ir/laravel-filemanager?type=' + (meta.filetype === 'image' ? 'Images' : 'Files');
 
-      // باز کردن پنجره فایل‌منیجر
       tinyMCE.activeEditor.windowManager.openUrl({
         url: url,
         title: 'File Manager',
         width: width,
         height: height,
         onMessage: (api, message) => {
-          // دریافت پیام از فایل‌منیجر و ارسال به TinyMCE
+          console.log('Message received:', message); // برای دیباگ
           if (message.mceAction === 'fileSelected') {
             callback(message.url);
             api.close();
