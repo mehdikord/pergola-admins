@@ -224,12 +224,18 @@ name: "Questions_Create",
 
       const fileManagerWindow = window.open(url, 'FileManager', 'width=' + width + ',height=' + height);
 
-      window.SetUrl = function (items) {
-        const file_path = items.map(item => item.url).join(',');
-        callback(file_path);
-        fileManagerWindow.close();
-      };
-    }  }
+      // دریافت پیام از فایل‌منیجر
+      window.addEventListener('message', (event) => {
+        console.log('Message received:', event.data); // برای دیباگ
+        if (event.data && event.data.mceAction === 'fileSelected') {
+          const file_path = event.data.url;
+          callback(file_path);
+          fileManagerWindow.close();
+        }
+      }, false);
+    },
+
+}
 }
 </script>
 
