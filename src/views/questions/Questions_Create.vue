@@ -222,19 +222,13 @@ name: "Questions_Create",
       const height = window.innerHeight * 0.8;
       const url = 'https://core.pergola.ir/laravel-filemanager?type=' + (meta.filetype === 'image' ? 'Images' : 'Files');
 
-      tinyMCE.activeEditor.windowManager.openUrl({
-        url: url,
-        title: 'File Manager',
-        width: width,
-        height: height,
-        onMessage: (api, message) => {
-          console.log('Message received:', message); // برای دیباگ
-          if (message.mceAction === 'fileSelected') {
-            callback(message.url);
-            api.close();
-          }
-        },
-      });
+      const fileManagerWindow = window.open(url, 'FileManager', 'width=' + width + ',height=' + height);
+
+      window.SetUrl = function (items) {
+        const file_path = items.map(item => item.url).join(',');
+        callback(file_path);
+        fileManagerWindow.close();
+      };
     },
   }
 }
