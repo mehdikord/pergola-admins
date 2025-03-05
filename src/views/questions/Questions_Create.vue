@@ -229,8 +229,7 @@ name: "Questions_Create",
         callback(file_path);
         fileManagerWindow.close();
       };
-    },
-  }
+    }  }
 }
 </script>
 
