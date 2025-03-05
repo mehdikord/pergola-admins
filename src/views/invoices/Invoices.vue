@@ -209,8 +209,8 @@ export default {
         </template>
         <template v-slot:body-cell-is_paid="props">
           <q-td :props="props">
-            <q-chip v-if="props.row.is_paid" color="green-7" text-color="white" label="پرداخت شده" icon="fas fa-check" size="sm" class="font-12 font-weight-500"></q-chip>
-            <q-chip v-else color="red-7" text-color="white" label="پرداخت نشده" icon="fas fa-times" size="sm" class="font-12 font-weight-500"></q-chip>
+            <q-chip v-if="props.row.is_paid" color="green-7" text-color="white" label="پرداخت شده" icon="fa-duotone fa-light fa-check" size="sm" class="font-12 font-weight-500"></q-chip>
+            <q-chip v-else color="red-7" text-color="white" label="پرداخت نشده" icon="fa-duotone fa-light fa-times" size="sm" class="font-12 font-weight-500"></q-chip>
           </q-td>
         </template>
         <template v-slot:body-cell-paid_at="props">
@@ -226,7 +226,7 @@ export default {
         <template v-slot:body-cell-tools="props">
           <q-td :props="props">
             <div class="text-center">
-              <q-btn glossy title="مشاهده جزئیات" class="q-ma-xs" color="purple-8" icon="fas fa-list" size="9px" round  />
+              <q-btn glossy title="مشاهده جزئیات" class="q-ma-xs" color="purple-8" icon="fa-duotone fa-light fa-list" size="9px" round  />
 
             </div>
           </q-td>

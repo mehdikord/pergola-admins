@@ -77,8 +77,8 @@ export default {
       </q-input>
     </div>
     <div class="col-12 q-mt-sm q-pa-xs text-right">
-      <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
-      <q-btn @click="Edit_Item" :loading="edit_loading" color="indigo-7" glossy icon="fas fa-plus-circle" label="ویرایش آیتم"></q-btn>
+      <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+      <q-btn @click="Edit_Item" :loading="edit_loading" color="indigo-7" glossy icon="fa-duotone fa-light fa-plus-circle" label="ویرایش آیتم"></q-btn>
 
     </div>
   </div>

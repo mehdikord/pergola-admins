@@ -18,7 +18,7 @@ export default {
     methods:{
 
         //All notifications methods
-        Methods_Notify_Generator(message,color='pink-7',icon='fas fa-envelope-open-text',caption=null,timeout=null,position='bottom'){
+        Methods_Notify_Generator(message,color='pink-7',icon='fa-duotone fa-light fa-envelope-open-text',caption=null,timeout=null,position='bottom'){
             this.$q.notify({
                 message: message,
                 color : color,
@@ -90,7 +90,7 @@ export default {
             return !!(errors[field] && errors[field].length);
         },
         Methods_Validation_Notify(){
-            this.Methods_Notify_Generator('اطلاعات ارسالی ناقص است!','red-7','fas fa-triangle-exclamation')
+            this.Methods_Notify_Generator('اطلاعات ارسالی ناقص است!','red-7','fa-duotone fa-light fa-triangle-exclamation')
         },
 
         Methods_Validation_Errors(errors=[],field){

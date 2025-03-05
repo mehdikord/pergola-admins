@@ -100,7 +100,7 @@ export default {
           position="top"
           clearable
           :error="this.Methods_Validation_Check(errors,'color_group_id')"
-          clear-icon="fas fa-times-circle text-red-8 font-22"
+          clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
       >
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
@@ -125,7 +125,7 @@ export default {
           :error="this.Methods_Validation_Check(errors,'color')" outlined v-model="items.color" label="انتخاب رنگ"
       >
         <template v-slot:append>
-          <q-icon name="fas fa-eye-dropper" class="cursor-pointer" color="teal-8">
+          <q-icon name="fa-duotone fa-light fa-eye-dropper" class="cursor-pointer" color="teal-8">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
               <q-color v-model="items.color" />
             </q-popup-proxy>
@@ -145,8 +145,8 @@ export default {
     </div>
 
     <div class="col-12 q-mt-sm q-pa-xs text-right">
-      <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
-      <q-btn @click="Edit_Item" :loading="edit_loading" color="indigo-7" glossy icon="fas fa-plus-circle" label="ویرایش آیتم"></q-btn>
+      <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+      <q-btn @click="Edit_Item" :loading="edit_loading" color="indigo-7" glossy icon="fa-duotone fa-light fa-plus-circle" label="ویرایش آیتم"></q-btn>
 
     </div>
   </div>

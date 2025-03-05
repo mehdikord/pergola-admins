@@ -169,7 +169,7 @@ export default {
         this.delete_loading=false;
       }).catch(error => {
         if (error.response.status === 409) {
-          this.Methods_Notify_Generator( error.response.data.error,'red-8','fas fa-times')
+          this.Methods_Notify_Generator( error.response.data.error,'red-8','fa-duotone fa-light fa-times')
         }else {
           this.Methods_Notify_Error_Server();
         }
@@ -189,7 +189,7 @@ export default {
         this.activation_loading=false;
       }).catch(error =>{
         if (error.response.status === 409) {
-          this.Methods_Notify_Generator( error.response.data.error,'red-8','fas fa-times')
+          this.Methods_Notify_Generator( error.response.data.error,'red-8','fa-duotone fa-light fa-times')
         }
         this.activation_loading=false;
       })
@@ -236,7 +236,7 @@ export default {
 
           <q-card-section>
             <strong class="text-indigo-8 font-15">افزودن آیتم جدید</strong>
-            <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+            <q-btn size="sm" icon="fa-duotone fa-light fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
           </q-card-section>
           <q-card-section>
             <admins_create @Done="(item => { Item_Create(item) })"></admins_create>
@@ -281,8 +281,8 @@ export default {
         <template v-slot:body-cell-tools="props">
           <q-td :props="props">
             <div class="text-center">
-              <q-btn @click="dialog_edit[props.row.id] = true" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fas fa-edit" size="9px" round  />
-              <q-btn @click="password_dialog[props.row.id] = true" glossy title="ویرایش گذرواژه" class="q-ma-xs" color="teal-8" icon="fas fa-lock" size="9px" round  />
+              <q-btn @click="dialog_edit[props.row.id] = true" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fa-duotone fa-light fa-edit" size="9px" round  />
+              <q-btn @click="password_dialog[props.row.id] = true" glossy title="ویرایش گذرواژه" class="q-ma-xs" color="teal-8" icon="fa-duotone fa-light fa-lock" size="9px" round  />
               <global_actions_delete_item @Set_Ok="Item_Delete(props.row.id)" :loading="delete_loading"></global_actions_delete_item>
             </div>
 
@@ -294,7 +294,7 @@ export default {
 
                 <q-card-section>
                   <strong class="text-blue-8 font-15">ویرایش اطلاعات : <strong class="text-red-8">{{props.row.name}}</strong></strong>
-                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                  <q-btn size="sm" icon="fa-duotone fa-light fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
                 </q-card-section>
                 <q-card-section>
                   <admins_edit :item="props.row" @Done="(item => { Item_Edit(item) })"></admins_edit>
@@ -308,7 +308,7 @@ export default {
               <q-card style="width: 1024px; max-width: 85vw;">
                 <q-card-section>
                   <strong class="text-blue-8 font-15">ویرایش گذرواژه : <strong class="text-red-8">{{props.row.name}}</strong></strong>
-                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                  <q-btn size="sm" icon="fa-duotone fa-light fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
                 </q-card-section>
                 <q-card-section>
                   <div class="row">
@@ -330,8 +330,8 @@ export default {
                 </q-card-section>
                 <q-card-section>
                   <div class="text-right">
-                    <q-btn glossy class="q-mr-sm" color="grey-8" icon="fas fa-times" label="بستن " v-close-popup></q-btn>
-                    <q-btn glossy @click="Change_Password(props.row)" :loading="password_loading[props.row.id]" color="teal-8" icon="fas fa-edit" label="تغییر گذرواژه"></q-btn>
+                    <q-btn glossy class="q-mr-sm" color="grey-8" icon="fa-duotone fa-light fa-times" label="بستن " v-close-popup></q-btn>
+                    <q-btn glossy @click="Change_Password(props.row)" :loading="password_loading[props.row.id]" color="teal-8" icon="fa-duotone fa-light fa-edit" label="تغییر گذرواژه"></q-btn>
                   </div>
                 </q-card-section>
               </q-card>

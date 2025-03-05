@@ -77,7 +77,7 @@ export default {
           :error="this.Methods_Validation_Check(errors,'plan_id')"
           position="top"
           clearable
-          clear-icon="fas fa-times-circle text-red-8 font-22"
+          clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
       >
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
@@ -106,7 +106,7 @@ export default {
           v-model="items.invoice_status"
           position="top"
           clearable
-          clear-icon="fas fa-times-circle text-red-8 font-22"
+          clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
       >
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
@@ -129,8 +129,8 @@ export default {
       </q-input>
     </div>
     <div class="col-12 q-mt-md q-pa-xs text-right">
-      <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
-      <q-btn @click="Create_Item" :loading="loading" color="teal-8" glossy icon="fas fa-plus-circle" label="ثبت اشتراک"></q-btn>
+      <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+      <q-btn @click="Create_Item" :loading="loading" color="teal-8" glossy icon="fa-duotone fa-light fa-plus-circle" label="ثبت اشتراک"></q-btn>
 
     </div>
   </div>

@@ -93,7 +93,7 @@ export default {
 
       </div>
       <div class="col-12 q-pa-sm">
-        <q-btn @click="Sorting" color="teal" label="اعمال مرتب سازی" glossy icon="fas fa-sort" class="font-13"></q-btn>
+        <q-btn @click="Sorting" color="teal" label="اعمال مرتب سازی" glossy icon="fa-duotone fa-light fa-sort" class="font-13"></q-btn>
 
       </div>
     </div>

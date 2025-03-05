@@ -97,7 +97,7 @@ export default {
 
   <div v-if="items">
     <div>
-      <q-btn @click="Add_Condition" color="dark" class="font-13" icon="fas fa-plus fa-beat" glossy label="افزودن شرط"></q-btn>
+      <q-btn @click="Add_Condition" color="dark" class="font-13" icon="fa-duotone fa-light fa-plus fa-beat" glossy label="افزودن شرط"></q-btn>
     </div>
     <div class="q-mt-md">
 
@@ -122,7 +122,7 @@ export default {
               </q-item>
             </template>
             <template v-slot:prepend>
-              <q-btn round dense glossy size="xs" color="red-8" @click="Remove_Condition(item.id)" icon="fas fa-times" />
+              <q-btn round dense glossy size="xs" color="red-8" @click="Remove_Condition(item.id)" icon="fa-duotone fa-light fa-times" />
             </template>
           </q-select>
         </div>
@@ -183,7 +183,7 @@ export default {
         </div>
       </div>
       <div class="q-mt-md animation-fade-in q-pa-sm" v-if="conditions.length">
-        <q-btn @click="Search_Items" color="primary" label="اعمال جستجو" glossy icon="fas fa-search" class="font-13"></q-btn>
+        <q-btn @click="Search_Items" color="primary" label="اعمال جستجو" glossy icon="fa-duotone fa-light fa-search" class="font-13"></q-btn>
       </div>
     </div>
 

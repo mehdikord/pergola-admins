@@ -136,7 +136,7 @@ export default {
         this.delete_loading=false;
       }).catch(error => {
         if (error.response.status === 409) {
-          this.Methods_Notify_Generator( error.response.data.error,'red-8','fas fa-times')
+          this.Methods_Notify_Generator( error.response.data.error,'red-8','fa-duotone fa-light fa-times')
         }else {
           this.Methods_Notify_Error_Server();
         }
@@ -156,7 +156,7 @@ export default {
         this.activation_loading=false;
       }).catch(error =>{
         if (error.response.status === 409) {
-          this.Methods_Notify_Generator( error.response.data.error,'red-8','fas fa-times')
+          this.Methods_Notify_Generator( error.response.data.error,'red-8','fa-duotone fa-light fa-times')
         }
         this.activation_loading=false;
       })
@@ -240,7 +240,7 @@ export default {
               <q-card style="width: 700px; max-width: 85vw;">
                 <q-card-section>
                   <strong class="text-deep-orange-8 font-15">مشاهده اطلاعات </strong>
-                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                  <q-btn size="sm" icon="fa-duotone fa-light fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
                 </q-card-section>
                 <q-card-section>
                   <div v-for="option in props.row.items" class="row">
@@ -257,7 +257,7 @@ export default {
                 </q-card-section>
                 <q-card-section>
                   <div class="text-right">
-                    <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+                    <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
                   </div>
                 </q-card-section>
               </q-card>
@@ -275,7 +275,7 @@ export default {
               <q-card style="width: 1024px; max-width: 85vw;">
                 <q-card-section>
                   <strong class="text-indigo font-16">مشاهده و ویرایش مراحل </strong>
-                  <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                  <q-btn size="sm" icon="fa-duotone fa-light fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
                 </q-card-section>
                 <q-card-section>
                   <question_answers @Done="dialog_answers[props.row.id] = false" :id="props.row.id" :answers="props.row.answers"></question_answers>
@@ -292,7 +292,7 @@ export default {
         <template v-slot:body-cell-tools="props">
           <q-td :props="props">
             <div class="text-center">
-              <q-btn :to="{name : 'questions_edit',params:{id : props.row.id}}" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fas fa-edit" size="9px" round  />
+              <q-btn :to="{name : 'questions_edit',params:{id : props.row.id}}" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fa-duotone fa-light fa-edit" size="9px" round  />
               <global_actions_delete_item @Set_Ok="Item_Delete(props.row.id)" :loading="delete_loading"></global_actions_delete_item>
             </div>
 

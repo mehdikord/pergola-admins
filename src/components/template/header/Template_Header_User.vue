@@ -35,7 +35,7 @@ export default {
         <q-item>
           <q-item-section>
             <div>
-              <q-icon name="fas fa-user" size="18px" class="q-mr-sm" color="pink-8" /><strong> {{user.name}} </strong>
+              <q-icon name="fa-duotone fa-light fa-user" size="18px" class="q-mr-sm" color="pink-8" /><strong> {{user.name}} </strong>
             </div>
           </q-item-section>
         </q-item>
@@ -43,7 +43,7 @@ export default {
         <q-item>
           <q-item-section>
             <div>
-              <q-icon name="fas fa-envelope" size="18px" class="q-mr-sm" color="green-8" /><span> {{user.email}} </span>
+              <q-icon name="fa-duotone fa-light fa-envelope" size="18px" class="q-mr-sm" color="green-8" /><span> {{user.email}} </span>
             </div>
           </q-item-section>
         </q-item>
@@ -51,7 +51,7 @@ export default {
         <q-item clickable>
           <q-item-section>
             <div>
-              <q-icon name="fas fa-cog" size="18px" class="q-mr-sm" color="blue-8" /><span> تنظیمات حساب</span>
+              <q-icon name="fa-duotone fa-light fa-cog" size="18px" class="q-mr-sm" color="blue-8" /><span> تنظیمات حساب</span>
             </div>
           </q-item-section>
         </q-item>
@@ -59,7 +59,7 @@ export default {
         <q-item clickable>
           <q-item-section>
             <div>
-              <q-icon name="fas fa-sign-out" size="18px" class="q-mr-sm" color="red-8" /><span> خروج از حساب</span>
+              <q-icon name="fa-duotone fa-light fa-sign-out" size="18px" class="q-mr-sm" color="red-8" /><span> خروج از حساب</span>
             </div>
           </q-item-section>
         </q-item>

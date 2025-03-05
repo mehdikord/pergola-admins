@@ -42,17 +42,17 @@ export default {
     </template>
     <template v-if="file.file_type === 'archive'">
       <div class=" q-mt-md">
-          <q-btn glossy @click="DownloadFile" color="pink-8" class="font-13"  icon-right="fas fa-archive text-white"  :label="'ZIP File : '+file.file_name+' ( '+ this.$filters.file_size(file.file_size) +' )' "></q-btn>
+          <q-btn glossy @click="DownloadFile" color="pink-8" class="font-13"  icon-right="fa-duotone fa-light fa-archive text-white"  :label="'ZIP File : '+file.file_name+' ( '+ this.$filters.file_size(file.file_size) +' )' "></q-btn>
       </div>
     </template>
     <template v-if="file.file_type === 'office'">
       <div class=" q-mt-md">
-        <q-btn glossy @click="DownloadFile" color="blue-9" class="font-13"  icon-right="fab fa-windows text-white"  :label="'Office File : '+file.file_name+' ( '+ this.$filters.file_size(file.file_size) +' )' "></q-btn>
+        <q-btn glossy @click="DownloadFile" color="blue-9" class="font-13"  icon-right="fa-duotone fa-light fa-windows text-white"  :label="'Office File : '+file.file_name+' ( '+ this.$filters.file_size(file.file_size) +' )' "></q-btn>
       </div>
     </template>
     <template v-if="file.file_type === 'text'">
       <div class=" q-mt-md">
-        <q-btn glossy @click="DownloadFile" color="deep-orange-7" class="font-13"  icon-right="fas fa-file-text text-white"  :label="'Text File : '+file.file_name+' ( '+ this.$filters.file_size(file.file_size) +' )' "></q-btn>
+        <q-btn glossy @click="DownloadFile" color="deep-orange-7" class="font-13"  icon-right="fa-duotone fa-light fa-file-text text-white"  :label="'Text File : '+file.file_name+' ( '+ this.$filters.file_size(file.file_size) +' )' "></q-btn>
       </div>
     </template>
 

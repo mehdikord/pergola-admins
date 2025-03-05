@@ -74,7 +74,7 @@ export default {
                 </q-input>
               </div>
               <div class="q-mt-xl text-right">
-                <q-btn :loading="loading" @click="Login" glossy label="ورود به مدیریت" color="blue-8" rounded class="font-16" icon="fas fa-check"></q-btn>
+                <q-btn :loading="loading" @click="Login" glossy label="ورود به مدیریت" color="blue-8" rounded class="font-16" icon="fa-duotone fa-light fa-check"></q-btn>
               </div>
             </div>
           </div>

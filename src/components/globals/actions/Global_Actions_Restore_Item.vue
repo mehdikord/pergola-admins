@@ -38,7 +38,7 @@ export default {
 </script>
 
 <template>
-  <q-btn :loading="loading" glossy class="q-ma-xs" color="green-6" icon="fas fa-refresh" size="9px" round @click="Restore_Item"  />
+  <q-btn :loading="loading" glossy class="q-ma-xs" color="green-6" icon="fa-duotone fa-light fa-refresh" size="9px" round @click="Restore_Item"  />
 </template>
 
 <style scoped>

@@ -88,14 +88,14 @@ export default {
       <div>
         <strong class="text-red">افزودن گزینه های انتخابی</strong>
         <div class="q-mt-md">
-          <q-btn rounded @click="Add_Attributes" glossy color="blue-8" icon="fas fa-plus" label="افزودن گزینه"></q-btn>
+          <q-btn rounded @click="Add_Attributes" glossy color="blue-8" icon="fa-duotone fa-light fa-plus" label="افزودن گزینه"></q-btn>
         </div>
       </div>
       <div class="q-mt-md q-mb-md row">
         <div v-for="(option,index) in items.items" class="col-md-3 q-px-sm q-mb-sm">
           <q-input outlined v-model="option.value"  type="text" :label="'گزینه ' + option.id">
             <template v-slot:append>
-              <q-btn round dense glossy size="sm" color="red-6" icon="fas fa-times" @click="Remove_Attributes(option.id)"/>
+              <q-btn round dense glossy size="sm" color="red-6" icon="fa-duotone fa-light fa-times" @click="Remove_Attributes(option.id)"/>
             </template>
           </q-input>
         </div>
@@ -117,8 +117,8 @@ export default {
       </q-input>
     </div>
     <div class="col-12 q-mt-sm q-pa-xs text-right">
-      <q-btn color="grey-8" glossy icon="fas fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
-      <q-btn @click="Edit_Item" :loading="edit_loading" color="indigo-7" glossy icon="fas fa-plus-circle" label="ویرایش آیتم"></q-btn>
+      <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+      <q-btn @click="Edit_Item" :loading="edit_loading" color="indigo-7" glossy icon="fa-duotone fa-light fa-plus-circle" label="ویرایش آیتم"></q-btn>
 
     </div>
   </div>

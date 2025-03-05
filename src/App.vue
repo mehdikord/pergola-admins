@@ -40,11 +40,11 @@ export default {
 
     <q-header v-if="this.$route.name !== 'auth'" class="header_bg text-white">
       <q-toolbar>
-        <q-btn dense flat round icon="fas fa-list" @click="toggleLeftDrawer" />
+        <q-btn dense flat round icon="fa-duotone fa-light fa-list" @click="toggleLeftDrawer" />
         <q-toolbar-title class="q-py-xs">
           <strong class="font-lalezar font-weight-100 font-38 text-pink-6">پرگولا</strong>
         </q-toolbar-title>
-        <!--        <q-btn dense flat round icon="fas fa-list" @click="toggleRightDrawer" />-->
+        <!--        <q-btn dense flat round icon="fa-duotone fa-light fa-list" @click="toggleRightDrawer" />-->
         <template_header_shortcuts  ></template_header_shortcuts>
         <template_header_notification  class="q-ml-xs"  ></template_header_notification>
         <template_header_user class="q-ml-md" ></template_header_user>

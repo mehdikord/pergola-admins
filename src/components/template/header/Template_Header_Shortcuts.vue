@@ -31,7 +31,7 @@ export default {
         <strong class="text-red">دسترسی سریع</strong>
         <div class="row text-center q-mt-sm">
           <div class="col-md-2 col-sm-3 col-xs-4">
-            <q-btn color="primary" flat icon="fas fa-envelope-open-text" round size="17px">
+            <q-btn color="primary" flat icon="fa-duotone fa-light fa-envelope-open-text" round size="17px">
               <q-tooltip
                   transition-show="rotate"
                   transition-hide="rotate"
@@ -41,7 +41,7 @@ export default {
             </q-btn>
           </div>
           <div class="col-md-2 col-sm-3 col-xs-4">
-            <q-btn color="grey-9" flat icon="fas fa-paper-plane" round size="17px">
+            <q-btn color="grey-9" flat icon="fa-duotone fa-light fa-paper-plane" round size="17px">
               <q-tooltip
                   transition-show="rotate"
                   transition-hide="rotate"

@@ -169,7 +169,7 @@ export default {
    <div v-for="answer in items" class="q-px-sm q-mb-xl">
      <div class="q-pa-lg" style="border: 1px dashed #0c1219; border-radius: 8px; background-color: rgba(162,162,162,0.08);">
        <div class="q-mb-xl">
-         <q-btn @click="Remove_Attributes(answer.id)" color="red" glossy rounded icon="fas fa-trash" label="حذف مرحله" class="float-right"></q-btn>
+         <q-btn @click="Remove_Attributes(answer.id)" color="red" glossy rounded icon="fa-duotone fa-light fa-trash" label="حذف مرحله" class="float-right"></q-btn>
        </div>
        <strong class="text-red-7"> تلفیق رنگ ها : </strong>
        <div class="row q-mt-sm">
@@ -184,7 +184,7 @@ export default {
                @filter="Filter_Color_Select"
                position="top"
                clearable
-               clear-icon="fas fa-times-circle text-red-8 font-22"
+               clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
            >
              <template v-slot:option="scope">
                <q-item v-bind="scope.itemProps">
@@ -232,7 +232,7 @@ export default {
              <div v-for="item in answer.answer.colors" class="col-md-4 col-sm-6 col-xs-6 q-px-sm q-mb-sm">
                <div class="talfig-box row">
                  <div class="col q-px-sm ">
-                   <q-icon class="font-18 cursor-pointer" color="red-8" name="fas fa-times" @click="Remove_Answer_Color(item.id,answer.id)"></q-icon>
+                   <q-icon class="font-18 cursor-pointer" color="red-8" name="fa-duotone fa-light fa-times" @click="Remove_Answer_Color(item.id,answer.id)"></q-icon>
                  </div>
                  <div class="col q-px-sm ">
                    <div class="tear-selected" :style="'background-color:'+item.color"></div>
@@ -292,8 +292,8 @@ export default {
      </div>
    </div>
    <div class="q-mt-xl q-mb-lg text-right">
-     <q-btn class="q-mr-sm" color="grey-8" label="بستن" glossy rounded v-close-popup icon="fas fa-times"></q-btn>
-     <q-btn :loading="loading" color="indigo" label="ذخیره اطلاعات مراحل" icon="fas fa-check" glossy rounded @click="Edit_Items"></q-btn>
+     <q-btn class="q-mr-sm" color="grey-8" label="بستن" glossy rounded v-close-popup icon="fa-duotone fa-light fa-times"></q-btn>
+     <q-btn :loading="loading" color="indigo" label="ذخیره اطلاعات مراحل" icon="fa-duotone fa-light fa-check" glossy rounded @click="Edit_Items"></q-btn>
    </div>
  </template>
 

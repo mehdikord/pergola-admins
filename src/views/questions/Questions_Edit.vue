@@ -266,7 +266,7 @@ export default {
               position="top"
               clearable
               :error="this.Methods_Validation_Check(errors,'from_color_id')"
-              clear-icon="fas fa-times-circle text-red-8 font-22"
+              clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
           >
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps">
@@ -315,7 +315,7 @@ export default {
               position="top"
               clearable
               :error="this.Methods_Validation_Check(errors,'to_color_id')"
-              clear-icon="fas fa-times-circle text-red-8 font-22"
+              clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
           >
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps">
@@ -372,7 +372,7 @@ export default {
                   v-model="items.items[option.id].value"
                   position="top"
                   clearable
-                  clear-icon="fas fa-times-circle text-red-8 font-22"
+                  clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
               >
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps">
@@ -391,7 +391,7 @@ export default {
         <div class="col-xs-12 col-sm-12 col-md-12 q-pa-sm q-mt-sm">
           <strong class="text-red-7">ایجاد مراحل انجام کار :</strong>
           <div class="q-mt-md">
-            <q-btn @click="add_level_dialog=true" dense color="blue-7" label="افزودن مرحله" icon="fas fa-plus-circle" rounded glossy></q-btn>
+            <q-btn @click="add_level_dialog=true" dense color="blue-7" label="افزودن مرحله" icon="fa-duotone fa-light fa-plus-circle" rounded glossy></q-btn>
           </div>
           <q-dialog
               v-model="add_level_dialog"
@@ -401,7 +401,7 @@ export default {
             <q-card style="width: 960px; max-width: 85vw;">
               <q-card-section>
                 <strong class="text-indigo-8 font-15">افزودن مرحله پرسش</strong>
-                <q-btn size="sm" icon="fas fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                <q-btn size="sm" icon="fa-duotone fa-light fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
               </q-card-section>
               <q-card-section>
                 <strong class="text-red-7"> تلفیق رنگ ها : </strong>
@@ -417,7 +417,7 @@ export default {
                         @filter="Filter_Color_Select"
                         position="top"
                         clearable
-                        clear-icon="fas fa-times-circle text-red-8 font-22"
+                        clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
                     >
                       <template v-slot:option="scope">
                         <q-item v-bind="scope.itemProps">
@@ -465,7 +465,7 @@ export default {
                       <div v-for="item in answer_colors" class="col-md-4 col-sm-6 col-xs-6 q-px-sm q-mb-sm">
                         <div class="talfig-box row">
                           <div class="col q-px-sm ">
-                            <q-icon class="font-18 cursor-pointer" color="red-8" name="fas fa-times" @click="Remove_Answer_Color(item.id)"></q-icon>
+                            <q-icon class="font-18 cursor-pointer" color="red-8" name="fa-duotone fa-light fa-times" @click="Remove_Answer_Color(item.id)"></q-icon>
                           </div>
                           <div class="col q-px-sm ">
                             <div class="tear-selected" :style="'background-color:'+item.color"></div>
@@ -530,7 +530,7 @@ export default {
           <div class="q-mt-md">
             <div v-for="answer in items.answers" class="answer-box q-mb-md">
               <strong class="text-teal-8">لیست تلفیق رنگ ها : </strong>
-              <q-btn @click="Remove_Attributes(answer.id)" rounded glossy class="float-right font-12" color="red-7" label="حذف مرحله" icon="fas fa-trash" size="sm"></q-btn>
+              <q-btn @click="Remove_Attributes(answer.id)" rounded glossy class="float-right font-12" color="red-7" label="حذف مرحله" icon="fa-duotone fa-light fa-trash" size="sm"></q-btn>
               <div class="q-mt-sm">
                 <div class="row">
                   <div v-for="color in answer.colors" class="col-md-3 col-sm-6 col-xs-6 q-px-sm q-mb-sm">
@@ -576,7 +576,7 @@ export default {
 
 
         <div class="col-xs-12 col-sm-12 col-md-12 q-pa-sm q-mt-md">
-          <q-btn @click="Edit_Item" color="indigo-8" glossy rounded label="ویرایش پرسش" icon="fas fa-edit"></q-btn>
+          <q-btn @click="Edit_Item" color="indigo-8" glossy rounded label="ویرایش پرسش" icon="fa-duotone fa-light fa-edit"></q-btn>
         </div>
       </div>
     </q-card-section>

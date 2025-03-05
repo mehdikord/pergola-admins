@@ -39,8 +39,8 @@ export default {
 
 <template>
 
-  <q-btn v-if="status" title="فعال"  glossy class="q-ma-xs" color="green-8" icon="fas fa-check" size="9px" round @click="Change_Activation_Item"  />
-  <q-btn v-else title="غیرفعال"  glossy class="q-ma-xs" color="red-8" icon="fas fa-times" size="9px" round @click="Change_Activation_Item"  />
+  <q-btn v-if="status" title="فعال"  glossy class="q-ma-xs" color="green-8" icon="fa-duotone fa-light fa-check" size="9px" round @click="Change_Activation_Item"  />
+  <q-btn v-else title="غیرفعال"  glossy class="q-ma-xs" color="red-8" icon="fa-duotone fa-light fa-times" size="9px" round @click="Change_Activation_Item"  />
 
 </template>
 

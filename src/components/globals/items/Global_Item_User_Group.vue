@@ -89,7 +89,7 @@ export default {
 <template>
 
   <template v-if="user.group">
-    <q-btn @click="dialog_edit=true" class="q-px-sm" size="11px" rounded v-if="user.group.is_admin" icon="fas fa-crown font-14 text-yellow-13" :label="user.group.group.name" text-color="white" :style="'background-color:'+user.group.group.color_code"></q-btn>
+    <q-btn @click="dialog_edit=true" class="q-px-sm" size="11px" rounded v-if="user.group.is_admin" icon="fa-duotone fa-light fa-crown font-14 text-yellow-13" :label="user.group.group.name" text-color="white" :style="'background-color:'+user.group.group.color_code"></q-btn>
     <q-btn @click="dialog_edit=true" class="q-px-sm" size="11px" rounded v-else :label="user.group.group.name" text-color="white" :style="'background-color:'+user.group.group.color_code"></q-btn>
   </template>
   <template v-else>
@@ -172,8 +172,8 @@ export default {
         </div>
       </q-card-section>
       <q-card-actions align="right" class="bg-white q-mb-sm">
-        <q-btn glossy label="بستن" color="red-8" v-close-popup icon="fas fa-times"/>
-        <q-btn @click="Edit_Group" :loading="loading" glossy label="ویرایش اطلاعات" color="teal-7" icon="fas fa-check" />
+        <q-btn glossy label="بستن" color="red-8" v-close-popup icon="fa-duotone fa-light fa-times"/>
+        <q-btn @click="Edit_Group" :loading="loading" glossy label="ویرایش اطلاعات" color="teal-7" icon="fa-duotone fa-light fa-check" />
       </q-card-actions>
     </q-card>
   </q-dialog>

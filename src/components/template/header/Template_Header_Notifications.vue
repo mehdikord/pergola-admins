@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-  <q-btn v-if="user" title="اعلانات" round icon="fas fa-bell" size="14px" :loading="!user">
+  <q-btn v-if="user" title="اعلانات" round icon="fa-duotone fa-light fa-bell" size="14px" :loading="!user">
     <q-badge color="red" floating>4</q-badge>
     <q-menu
         transition-show="flip-right"
@@ -47,9 +47,9 @@ export default {
               <q-item-section  side top>
                 <span class="text-pink-8"> 1 دقیقه پیش</span>
                 <div class="q-mt-sm">
-                  <q-btn icon="fas fa-check" class="q-ml-xs q-mr-xs" size="xs" color="green-8" round glossy></q-btn>
-                  <q-btn icon="fas fa-trash" class="q-ml-xs q-mr-xs" size="xs" color="red-8" round glossy></q-btn>
-                  <q-btn icon="fas fa-eye" class="q-ml-xs q-mr-xs" size="xs" color="blue-8" round glossy></q-btn>
+                  <q-btn icon="fa-duotone fa-light fa-check" class="q-ml-xs q-mr-xs" size="xs" color="green-8" round glossy></q-btn>
+                  <q-btn icon="fa-duotone fa-light fa-trash" class="q-ml-xs q-mr-xs" size="xs" color="red-8" round glossy></q-btn>
+                  <q-btn icon="fa-duotone fa-light fa-eye" class="q-ml-xs q-mr-xs" size="xs" color="blue-8" round glossy></q-btn>
                 </div>
               </q-item-section>
             </q-item>

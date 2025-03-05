@@ -122,8 +122,8 @@ export default {
         </div>
       </q-card-section>
       <q-card-actions align="right" class="bg-white q-mb-sm">
-        <q-btn glossy label="بستن" color="red-8" v-close-popup icon="fas fa-times"/>
-        <q-btn @click="Edit_Role" :loading="loading" glossy label="ویرایش اطلاعات" color="teal-7" icon="fas fa-check" />
+        <q-btn glossy label="بستن" color="red-8" v-close-popup icon="fa-duotone fa-light fa-times"/>
+        <q-btn @click="Edit_Role" :loading="loading" glossy label="ویرایش اطلاعات" color="teal-7" icon="fa-duotone fa-light fa-check" />
       </q-card-actions>
     </q-card>
   </q-dialog>
