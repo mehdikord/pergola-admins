@@ -224,7 +224,6 @@ name: "Questions_Create",
 
       const fileManagerWindow = window.open(url, 'FileManager', 'width=' + width + ',height=' + height);
 
-      // دریافت پیام از فایل‌منیجر
       window.addEventListener('message', function handler(event) {
         if (event.origin !== 'https://core.pergola.ir') {
           console.log('Invalid origin:', event.origin);
@@ -233,7 +232,7 @@ name: "Questions_Create",
 
         console.log('Message received in TinyMCE:', event.data);
         if (event.data && event.data.mceAction === 'fileSelected') {
-          callback(event.data.url); // استفاده از url برای TinyMCE
+          callback(event.data.url);
           fileManagerWindow.close();
           window.removeEventListener('message', handler);
         }
