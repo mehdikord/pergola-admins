@@ -62,38 +62,36 @@ name: "Questions_Create",
         return this.Methods_Notify_Message_Error("رنگ فعلی و رنگ جدید نمیتواند باهم برابر باشد !")
       }
       this.loading = true;
-      if(this.items.items.length){
+      if (this.items.items.length) {
         this.items.items = this.items.items.filter(item => item !== null);
       }
       Stores_Questions().Create(this.items).then(response => {
         this.Methods_Notify_Create()
         this.loading = false;
-        this.$router.push({name : 'questions'});
+        this.$router.push({name: 'questions'});
       }).catch(error => {
         if (error.response.status === 422) {
           this.Methods_Validation_Notify();
           this.errors = error.response.data;
         }
-        this.loading=false;
+        this.loading = false;
       });
-
-
 
 
     },
     Get_From_Colors() {
       Stores_Colors().All().then(res => {
         this.from_colors = [];
-        res.data.result.forEach( item=> {
-          this.from_colors.push({value: item.id, label: item.name,color: item.color});
+        res.data.result.forEach(item => {
+          this.from_colors.push({value: item.id, label: item.name, color: item.color});
         })
       })
     },
     Get_To_Colors() {
       Stores_Colors().All().then(res => {
         this.to_colors = [];
-        res.data.result.forEach( item=> {
-          this.to_colors.push({value: item.id, label: item.name,color: item.color});
+        res.data.result.forEach(item => {
+          this.to_colors.push({value: item.id, label: item.name, color: item.color});
         })
       })
     },
@@ -102,18 +100,18 @@ name: "Questions_Create",
         this.all_colors = [];
         this.all_colors = res.data.result;
         this.colors = [];
-        res.data.result.forEach( item=> {
-          this.colors.push({value: item.id, label: item.name,color: item.color});
+        res.data.result.forEach(item => {
+          this.colors.push({value: item.id, label: item.name, color: item.color});
         })
       })
     },
     Get_Options() {
       Stores_Options().All().then(res => {
         this.options = res.data.result;
-        this.options.forEach( item=> {
-          this.items.items[item.id]={id : item.id,value : null}
-          let new_items=[];
-          item.items.forEach( get_item=> {
+        this.options.forEach(item => {
+          this.items.items[item.id] = {id: item.id, value: null}
+          let new_items = [];
+          item.items.forEach(get_item => {
             new_items.push({value: get_item.id, label: get_item.item});
           })
           item.items = new_items;
@@ -121,74 +119,81 @@ name: "Questions_Create",
 
       })
     },
-    Filter_From_Color_Select (val, update, abort) {
+    Filter_From_Color_Select(val, update, abort) {
       update(() => {
-        if (val){
-          this.from_colors =  this.from_colors.filter(item => {
+        if (val) {
+          this.from_colors = this.from_colors.filter(item => {
             return item.label !== null && item.label.match(val)
           })
-        }else {
+        } else {
           this.Get_From_Colors();
         }
       })
     },
-    Filter_Color_Select (val, update, abort) {
+    Filter_Color_Select(val, update, abort) {
       update(() => {
-        if (val){
-          this.colors =  this.colors.filter(item => {
+        if (val) {
+          this.colors = this.colors.filter(item => {
             return item.label !== null && item.label.match(val)
           })
-        }else {
+        } else {
           this.Get_Colors();
         }
       })
     },
-    Filter_To_Color_Select (val, update, abort) {
+    Filter_To_Color_Select(val, update, abort) {
       update(() => {
-        if (val){
-          this.to_colors =  this.to_colors.filter(item => {
+        if (val) {
+          this.to_colors = this.to_colors.filter(item => {
             return item.label !== null && item.label.match(val)
           })
-        }else {
+        } else {
           this.Get_To_Colors();
         }
       })
     },
     Add_Attributes() {
-      this.items.answers.push({id :this.item_counter,colors : this.answer_colors , oxidant : this.answer_oxidant ,oxidant_percent : this.answer_oxidant_percent,oxidant_time : this.answer_oxidant_time  , text:this.answer_text });
+      this.items.answers.push({
+        id: this.item_counter,
+        colors: this.answer_colors,
+        oxidant: this.answer_oxidant,
+        oxidant_percent: this.answer_oxidant_percent,
+        oxidant_time: this.answer_oxidant_time,
+        text: this.answer_text
+      });
       this.item_counter++;
-      this.answer_colors=[];
-      this.answer_oxidant=null;
-      this.answer_oxidant_percent=null;
-      this.answer_oxidant_time=null;
-      this.answer_text=null
+      this.answer_colors = [];
+      this.answer_oxidant = null;
+      this.answer_oxidant_percent = null;
+      this.answer_oxidant_time = null;
+      this.answer_text = null
       this.add_level_dialog = false
       return this.Methods_Notify_Message_Success('به لیست پاسخ ها اضافه شد')
     },
-    Remove_Attributes(id){
+    Remove_Attributes(id) {
       this.items.answers = this.items.answers.filter(item => item.id !== id)
     },
-    Add_Answer_Color(){
-      if(!this.add_color || !this.add_color_val){
+    Add_Answer_Color() {
+      if (!this.add_color || !this.add_color_val) {
         return this.Methods_Notify_Message_Error('مقادیر خواسته شده را تکمیل کنید')
       }
       let color_code = null;
       let color_name = null;
       this.all_colors.map(item => {
-        if (this.add_color === item.id){
+        if (this.add_color === item.id) {
           color_code = item.color;
           color_name = item.name;
         }
       })
       this.answer_colors.push({
-        id : this.add_color,
-        name : color_name,
-        color : color_code,
-        val : this.add_color_val,
+        id: this.add_color,
+        name: color_name,
+        color: color_code,
+        val: this.add_color_val,
       });
       return this.Methods_Notify_Message_Success('به لیست تلفیق رنگ ها اضافه شد')
     },
-    Remove_Answer_Color(id){
+    Remove_Answer_Color(id) {
       this.answer_colors = this.answer_colors.filter(item => item.id !== id)
     },
     async HandleImageUpload(blobInfo, success, failure) {
@@ -204,7 +209,7 @@ name: "Questions_Create",
 
         if (response.data && response.data.location) {
           console.log(response.data.location);
-          success( {}); // TinyMCE باید مقدار URL معتبر دریافت کند
+          success({}); // TinyMCE باید مقدار URL معتبر دریافت کند
         } else {
           failure("خطا در دریافت آدرس تصویر");
         }
@@ -212,18 +217,28 @@ name: "Questions_Create",
         failure("آپلود ناموفق بود");
       }
     },
+
     filePickerCallback(callback, value, meta) {
-      const width = 900;
-      const height = 600;
-      const fileManagerUrl = 'https://core.pergola.ir/laravel-filemanager?type='+ meta.filetype;
+      const width = window.innerWidth * 0.8;
+      const height = window.innerHeight * 0.8;
+      const url = 'https://core.pergola.ir/laravel-filemanager?type=' + (meta.filetype === 'image' ? 'Images' : 'Files');
 
-      // باز کردن پنجره فایل منیجر
-      const fileManagerWindow = window.open(fileManagerUrl, 'FileManager', `width=${width},height=${height}`);
-      window.SetUrl = function(url) {
-        callback(url[0].url);
-      };
-
-    }  }
+      // باز کردن پنجره فایل‌منیجر
+      tinyMCE.activeEditor.windowManager.openUrl({
+        url: url,
+        title: 'File Manager',
+        width: width,
+        height: height,
+        onMessage: (api, message) => {
+          // دریافت پیام از فایل‌منیجر و ارسال به TinyMCE
+          if (message.mceAction === 'fileSelected') {
+            callback(message.url);
+            api.close();
+          }
+        },
+      });
+    },
+  }
 }
 </script>
 
@@ -499,7 +514,8 @@ name: "Questions_Create",
                         plugins: 'lists link image table code help wordcount',
                         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image ',
                         content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
-                        file_picker_callback:this.filePickerCallback, // اضافه کردن این خط
+                        file_picker_types: 'image',
+                        file_picker_callback: this.filePickerCallback,
                       }"
                   />
                 </div>
