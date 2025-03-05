@@ -225,12 +225,17 @@ name: "Questions_Create",
       const fileManagerWindow = window.open(url, 'FileManager', 'width=' + width + ',height=' + height);
 
       // دریافت پیام از فایل‌منیجر
-      window.addEventListener('message', (event) => {
-        console.log('Message received:', event.data); // برای دیباگ
+      window.addEventListener('message', function handler(event) {
+        if (event.origin !== 'https://core.pergola.ir') {
+          console.log('Invalid origin:', event.origin);
+          return;
+        }
+
+        console.log('Message received in TinyMCE:', event.data);
         if (event.data && event.data.mceAction === 'fileSelected') {
-          const file_path = event.data.url;
-          callback(file_path);
+          callback(event.data.url); // استفاده از url برای TinyMCE
           fileManagerWindow.close();
+          window.removeEventListener('message', handler);
         }
       }, false);
     },
