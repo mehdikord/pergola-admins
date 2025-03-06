@@ -261,7 +261,13 @@ export default {
         </template>
         <template v-slot:body-cell-items="props">
           <q-td :props="props">
-            <q-btn @click="dialog_items[props.row.id] = true" glossy rounded color="deep-orange-8" label="مشاهده اطلاعات" size="sm" class="font-12"></q-btn>
+            <div class="row q-gutter-md">
+              <div v-for="option in props.row.items">
+                <strong>{{option.option.name}} : </strong>
+                <strong class="text-red font-14">{{option.value.item}}</strong>
+              </div>
+            </div>
+<!--            <q-btn @click="dialog_items[props.row.id] = true" glossy rounded color="deep-orange-8" label="مشاهده اطلاعات" size="sm" class="font-12"></q-btn>-->
             <q-dialog
                 v-model="dialog_items[props.row.id]"
                 position="top"
@@ -291,6 +297,7 @@ export default {
                 </q-card-section>
               </q-card>
             </q-dialog>
+
           </q-td>
         </template>
         <template v-slot:body-cell-answers="props">
