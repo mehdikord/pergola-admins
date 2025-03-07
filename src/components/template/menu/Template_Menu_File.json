@@ -108,6 +108,17 @@
     ]
   },
   {
+    "fa" : "نوشته ها",
+    "en" : "Posts",
+    "icon" : "fa-duotone fa-light fa-blog",
+    "route_path" : "/posts",
+    "route_name" : "posts",
+    "level"      : 0,
+    "subs" : [
+
+    ]
+  },
+  {
     "title" : true,
     "fa" : "امور و مدیریت مالی",
     "en" : "Dashboards"
