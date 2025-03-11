@@ -83,6 +83,10 @@ export default {
            items : null
          }
        }
+    },
+    Remove_Search(){
+      this.conditions=[];
+      this.$emit("Cancel_Search",'ok')
     }
   },
 
@@ -97,7 +101,7 @@ export default {
 
   <div v-if="items">
     <div>
-      <q-btn @click="Add_Condition" color="dark" class="font-13" icon="fa-duotone fa-light fa-plus fa-beat" glossy label="افزودن شرط"></q-btn>
+      <q-btn rounded @click="Add_Condition" color="teal-8" class="font-13" icon="fa-duotone fa-light fa-plus fa-beat" glossy label="افزودن شرط"></q-btn>
     </div>
     <div class="q-mt-md">
 
@@ -183,7 +187,8 @@ export default {
         </div>
       </div>
       <div class="q-mt-md animation-fade-in q-pa-sm" v-if="conditions.length">
-        <q-btn @click="Search_Items" color="primary" label="اعمال جستجو" glossy icon="fa-duotone fa-light fa-search" class="font-13"></q-btn>
+        <q-btn rounded @click="Remove_Search" color="red-6" label="حذف جستجتو" glossy icon="fa-duotone fa-light fa-times" class="font-13 q-mr-sm"></q-btn>
+        <q-btn rounded @click="Search_Items" color="teal-9" label="اعمال جستجو" glossy icon="fa-duotone fa-light fa-search" class="font-13"></q-btn>
       </div>
     </div>
 

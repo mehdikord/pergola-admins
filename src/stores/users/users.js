@@ -66,6 +66,15 @@ export const Stores_Users = defineStore('users',{
                 })
             })
         },
+        Searchable(){
+            return new Promise((resolve, reject) => {
+                axios.get('admins/users/searchable').then(response =>{
+                    return resolve(response);
+                }).catch(error =>{
+                    return reject(error);
+                })
+            })
+        }
 
     },
     getters :{

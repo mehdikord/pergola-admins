@@ -16,6 +16,7 @@ export default {
         id:null,
         name : null,
         phone : null,
+        default_password : null,
         age : 18,
       },
       loading: true,
@@ -54,7 +55,7 @@ export default {
   <global_loading_shape v-if="loading"></global_loading_shape>
   <div v-else class="row">
 
-    <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
+    <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
       <q-input  :error="this.Methods_Validation_Check(errors,'name')" outlined v-model="items.name"  type="text" label="نام کابر">
         <template v-slot:error>
           <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'name')" />
@@ -76,6 +77,14 @@ export default {
         </template>
       </q-input>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
+      <q-input  :error="this.Methods_Validation_Check(errors,'default_password')" outlined v-model="items.default_password"  type="number" label="کد پیشفرض ورود">
+        <template v-slot:error>
+          <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'default_password')" />
+        </template>
+      </q-input>
+    </div>
+
     <div class="col-12 q-mt-sm q-pa-xs text-right">
       <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
       <q-btn @click="Edit_Item" :loading="edit_loading" color="indigo-7" glossy icon="fa-duotone fa-light fa-plus-circle" label="ویرایش آیتم"></q-btn>

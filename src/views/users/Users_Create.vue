@@ -8,6 +8,7 @@ export default {
       items : {
         name : null,
         phone : null,
+        default_password: null,
         age : 18,
       },
       loading: false,
@@ -38,7 +39,7 @@ export default {
 
 <template>
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
+    <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
       <q-input  :error="this.Methods_Validation_Check(errors,'name')" outlined v-model="items.name"  type="text" label="نام کابر">
         <template v-slot:error>
           <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'name')" />
@@ -57,6 +58,13 @@ export default {
       <q-input  :error="this.Methods_Validation_Check(errors,'age')" outlined v-model="items.age"  type="number" label="سن">
         <template v-slot:error>
           <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'age')" />
+        </template>
+      </q-input>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
+      <q-input  :error="this.Methods_Validation_Check(errors,'default_password')" outlined v-model="items.default_password"  type="number" label="کد پیشفرض ورود">
+        <template v-slot:error>
+          <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'default_password')" />
         </template>
       </q-input>
     </div>
