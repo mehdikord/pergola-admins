@@ -3,6 +3,7 @@
 import {Stores_Colors} from "@/stores/colors/colors.js";
 import Colors_Create from "@/views/colors/Colors_Create.vue";
 import Colors_Edit from "@/views/colors/Colors_Edit.vue";
+import {Stores_Users} from "@/stores/users/users.js";
 
 export default {
   name: "Colors",
@@ -12,6 +13,8 @@ export default {
   },
   mounted() {
     this.Items_Get();
+    this.Searchable_Get();
+
   },
   data(){
     return {
@@ -105,6 +108,8 @@ export default {
       visible_columns:[],
       edit_image:null,
       edit_image_loading:null,
+      searchable:[],
+
     }
   },
   methods :{
@@ -126,6 +131,21 @@ export default {
         this.Methods_Notify_Error_Server();
         this.items_loading=false;
       })
+    },
+    Searchable_Get(){
+      Stores_Colors().Searchable().then(res=>{
+        this.searchable = res.data.result;
+      }).catch(error => {
+        this.Methods_Notify_Error_Server();
+      })
+    },
+    Items_Search(data){
+      this.query_params.search = data;
+      this.Items_Get()
+    },
+    Cancel_Search(){
+      this.query_params.search = {};
+      this.Items_Get();
     },
     Item_Create(item){
       this.items.unshift(item);
@@ -251,7 +271,7 @@ export default {
 </script>
 
 <template>
-  <q-card>
+  <q-card flat>
     <q-card-section>
       <global_actions_header_buttons @Create="dialog_create=true" :create="true"></global_actions_header_buttons>
 
@@ -271,7 +291,12 @@ export default {
         </q-card>
       </q-dialog>
 
-      <q-separator class="q-mt-xl"/>
+      <div class="q-mt-md">
+        <strong class="text-blue-8">جستجو و فیلتر پیشترفته</strong>
+        <div class="q-mt-md">
+          <global_searching_full_search @Cancel_Search="Cancel_Search" @Search="(data) => Items_Search(data)" v-if="searchable.length" :items="searchable" ></global_searching_full_search>
+        </div>
+      </div>
     </q-card-section>
     <q-card-section>
       <q-table

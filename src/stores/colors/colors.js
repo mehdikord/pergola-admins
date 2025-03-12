@@ -12,6 +12,16 @@ export const Stores_Colors = defineStore('colors',{
            })
        },
 
+        Searchable(){
+            return new Promise((resolve, reject) => {
+                axios.get('admins/colors/searchable').then(response =>{
+                    return resolve(response);
+                }).catch(error =>{
+                    return reject(error);
+                })
+            })
+        },
+
         All(){
             return new Promise((resolve, reject) => {
                 axios.get('admins/colors/all').then(response =>{
