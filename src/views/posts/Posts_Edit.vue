@@ -74,7 +74,7 @@ export default {
 
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
-      <q-file outlined bottom-slots v-model="items.image" label="انتخاب تصویر رنگ" counter>
+      <q-file outlined bottom-slots v-model="items.image" label="انتخاب تصویر " counter>
         <template v-slot:prepend>
           <q-icon name="fa-duotone fa-light fa-upload" @click.stop.prevent />
         </template>

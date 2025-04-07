@@ -13,6 +13,7 @@ import plans from "@/router/routes/plans/plans.js";
 import admins from "@/router/routes/admins/admins.js";
 import invoices from "@/router/routes/invoices/invoices.js";
 import posts from "@/router/routes/posts/posts.js";
+import pages from "@/router/routes/pages/pages.js";
 
 
 
@@ -30,6 +31,7 @@ const router = createRouter({
       ...admins,
       ...invoices,
       ...posts,
+      ...pages,
 
   ],
 })

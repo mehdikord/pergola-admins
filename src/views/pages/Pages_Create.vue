@@ -1,17 +1,16 @@
 <script>
-import {Stores_Posts} from "@/stores/posts/posts.js";
+import {Stores_Pages} from "@/stores/pages/pages.js";
 import Editor from "@tinymce/tinymce-vue";
 
 export default {
-  name: "Posts_Create",
+  name: "Pages_Create",
   components: {Editor},
   data() {
     return {
       items : {
         title : null,
         slug : null,
-        description : null,
-        image : null,
+        content : null,
       },
       loading: false,
       groups:[],
@@ -21,7 +20,7 @@ export default {
   methods: {
     Create_Item() {
       this.loading = true;
-      Stores_Posts().Create(this.items).then(response => {
+      Stores_Pages().Create(this.items).then(response => {
         this.$emit('Done', response.data.result);
         this.loading = false;
       }).catch(error => {
@@ -44,7 +43,7 @@ export default {
 <template>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
-      <q-input  :error="this.Methods_Validation_Check(errors,'title')" outlined v-model="items.title"  type="text" label="عنوان نوشته">
+      <q-input  :error="this.Methods_Validation_Check(errors,'title')" outlined v-model="items.title"  type="text" label="عنوان صفحه">
         <template v-slot:error>
           <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'title')" />
         </template>
@@ -60,18 +59,8 @@ export default {
 
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
-      <q-file outlined bottom-slots v-model="items.image" label="انتخاب تصویر " counter>
-        <template v-slot:prepend>
-          <q-icon name="fa-duotone fa-light fa-upload" @click.stop.prevent />
-        </template>
-        <template v-slot:append>
-          <q-icon name="close" @click.stop.prevent="items.image = null" class="cursor-pointer" />
-        </template>
-      </q-file>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
       <Editor
-          v-model="items.description"
+          v-model="items.content"
           api-key="sceb5ojezxll8rl6rbeg3njp04rrzzorifhf7z9q4zc4shn0"
           :init="{
                         language: 'fa',

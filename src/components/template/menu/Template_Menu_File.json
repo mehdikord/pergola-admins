@@ -119,6 +119,17 @@
     ]
   },
   {
+    "fa" : "مدیریت صفحات",
+    "en" : "Pages",
+    "icon" : "fa-duotone fa-light fa-memo",
+    "route_path" : "/pages",
+    "route_name" : "pages",
+    "level"      : 0,
+    "subs" : [
+
+    ]
+  },
+  {
     "title" : true,
     "fa" : "امور و مدیریت مالی",
     "en" : "Dashboards"
