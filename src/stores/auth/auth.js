@@ -19,6 +19,11 @@ export const Stores_Auth = defineStore('auth',{
             if (localStorage.getItem('admin_pergola_user')){
                 this.user = JSON.parse(localStorage.getItem('admin_pergola_user'));
             }
+        },
+        AuthLogout(){
+            localStorage.removeItem('admin_pergola_token');
+            localStorage.removeItem('admin_pergola_user');
+            window.location.reload();
         }
     },
     getters :{

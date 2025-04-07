@@ -1,7 +1,6 @@
 //Axios Configs
-
-
 import axios from "axios";
+import {Stores_Auth} from "@/stores/auth/auth.js";
 window.axios = axios;
 
 
@@ -16,7 +15,7 @@ window.axios.interceptors.response.use(
     },
     error => {
         if (error.response.status === 401) {
-
+            Stores_Auth().AuthLogout()
         }
 
         return Promise.reject(error);
