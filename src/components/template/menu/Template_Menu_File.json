@@ -108,6 +108,22 @@
     ]
   },
   {
+    "title" : true,
+    "fa" : "محتوا",
+    "en" : "Content"
+  },
+  {
+    "fa" : "دسته بندی نوشته ها",
+    "en" : "Posts",
+    "icon" : "fa-duotone fa-light fa-grid",
+    "route_path" : "/posts/categories",
+    "route_name" : "posts_categories",
+    "level"      : 0,
+    "subs" : [
+
+    ]
+  },
+  {
     "fa" : "نوشته ها",
     "en" : "Posts",
     "icon" : "fa-duotone fa-light fa-blog",
@@ -118,17 +134,7 @@
 
     ]
   },
-  {
-    "fa" : "مدیریت صفحات",
-    "en" : "Pages",
-    "icon" : "fa-duotone fa-light fa-memo",
-    "route_path" : "/pages",
-    "route_name" : "pages",
-    "level"      : 0,
-    "subs" : [
 
-    ]
-  },
   {
     "title" : true,
     "fa" : "امور و مدیریت مالی",

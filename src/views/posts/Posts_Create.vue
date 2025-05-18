@@ -4,17 +4,21 @@ import Editor from "@tinymce/tinymce-vue";
 
 export default {
   name: "Posts_Create",
+  mounted() {
+    this.Get_Category();
+  },
   components: {Editor},
   data() {
     return {
       items : {
         title : null,
+        post_category_id : null,
         slug : null,
         description : null,
         image : null,
       },
       loading: false,
-      groups:[],
+      categories:[],
       errors: [],
     }
   },
@@ -36,6 +40,26 @@ export default {
 
 
     },
+    Filter_Category_Select (val, update, abort) {
+      update(() => {
+        if (val){
+          this.categories =  this.categories.filter(item => {
+            return item.label !== null && item.label.match(val)
+          })
+        }else {
+          this.Get_Category();
+        }
+      })
+    },
+    Get_Category() {
+      Stores_Posts().Category_All().then(res => {
+        this.categories = [];
+        res.data.result.forEach(item => {
+          this.categories.push({label: item.name, value: item.id});
+        })
+      })
+
+    }
 
   }
 }
@@ -49,7 +73,38 @@ export default {
           <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'title')" />
         </template>
       </q-input>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
+      <q-select
+          label="انتخاب دسته بندی "
+          outlined
+          :options="categories"
+          emit-value
+          map-options
+          use-input
+          @filter="Filter_Category_Select"
+          v-model="items.post_category_id"
+          position="top"
+          clearable
+          :error="this.Methods_Validation_Check(errors,'post_category_id')"
+          clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
+      >
+        <template v-slot:option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section>
+              <q-item-label>
+                  <span>
+                    {{ scope.opt.label }}
+                  </span>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
 
+        <template v-slot:error>
+          <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'post_category_id')" />
+        </template>
+      </q-select>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
       <q-input  :error="this.Methods_Validation_Check(errors,'slug')" outlined v-model="items.slug"  type="text" label="پیوند یکتا ( به صورت انگلیسی )">
@@ -59,7 +114,7 @@ export default {
       </q-input>
 
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
+    <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
       <q-file outlined bottom-slots v-model="items.image" label="انتخاب تصویر " counter>
         <template v-slot:prepend>
           <q-icon name="fa-duotone fa-light fa-upload" @click.stop.prevent />

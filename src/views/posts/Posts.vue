@@ -56,6 +56,14 @@ export default {
           field: row => row.title,
         },
         {
+          name: 'category',
+          value: 'category',
+          label: 'دسته بندی',
+          align: 'left',
+          sortable: true,
+          field: row => row.category,
+        },
+        {
           name: 'slug',
           value: 'slug',
           label: 'پیوند یکتا',
@@ -282,6 +290,11 @@ export default {
               <q-img v-if="props.row.image" :src="props.row.image" width="60px" class="rounded-borders" />
               <div class="q-ml-sm q-mt-sm"><strong>{{ props.row.title }}</strong></div>
             </div>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-category="props">
+          <q-td :props="props">
+            <strong v-if="props.row.category" class="text-teal-7">{{ props.row.category.name }}</strong>
           </q-td>
         </template>
         <template v-slot:body-cell-slug="props">
