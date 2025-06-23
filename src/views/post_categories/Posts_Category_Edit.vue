@@ -11,10 +11,13 @@ export default {
       this.items.id = this.item.id;
       this.Get_Item();
     }
+    this.Get_Categories();
+
   },
   data() {
     return {
       items : {
+        parent_id:null,
         id:null,
         name : null,
         color : null,
@@ -24,6 +27,8 @@ export default {
       edit_loading: false,
       errors: [],
       groups:[],
+      categories:[],
+
 
     }
   },
@@ -34,6 +39,16 @@ export default {
         this.loading = false;
       }).catch(error=>{
         this.Methods_Notify_Error_Server();
+      })
+    },
+    Get_Categories(){
+      Stores_Posts().Category_All().then(res => {
+        this.categories=[];
+        res.data.result.forEach(item => {
+          this.categories.push({label : item.name , value:item.id});
+        })
+      }).catch(error => {
+
       })
     },
     Edit_Item() {
@@ -66,8 +81,38 @@ export default {
 
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
-      <q-input
-          :error="this.Methods_Validation_Check(errors,'color')" outlined v-model="items.color" label="انتخاب رنگ"
+      <q-select
+          label="انتخاب سرگروه "
+          outlined
+          :options="categories"
+          emit-value
+          map-options
+          use-input
+          v-model="items.parent_id"
+          position="top"
+          clearable
+          :error="this.Methods_Validation_Check(errors,'post_category_id')"
+          clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
+      >
+        <template v-slot:option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section>
+              <q-item-label>
+                  <span>
+                    {{ scope.opt.label }}
+                  </span>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:error>
+          <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'post_category_id')" />
+        </template>
+      </q-select>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
+      <q-input :error="this.Methods_Validation_Check(errors,'color')" outlined v-model="items.color" label="انتخاب رنگ"
       >
         <template v-slot:append>
           <q-icon name="fa-duotone fa-light fa-eye-dropper" class="cursor-pointer" color="teal-8">

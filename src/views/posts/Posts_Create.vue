@@ -16,7 +16,15 @@ export default {
         slug : null,
         description : null,
         image : null,
+        files:[
+          {
+            id:1,
+            title:null,
+            file:null,
+          }
+        ],
       },
+      add_files : 1,
       loading: false,
       categories:[],
       errors: [],
@@ -35,10 +43,6 @@ export default {
         }
         this.loading=false;
       });
-
-
-
-
     },
     Filter_Category_Select (val, update, abort) {
       update(() => {
@@ -55,10 +59,18 @@ export default {
       Stores_Posts().Category_All().then(res => {
         this.categories = [];
         res.data.result.forEach(item => {
-          this.categories.push({label: item.name, value: item.id});
+          this.categories.push({label: item.name, value: item.id,parent : item.parent});
         })
       })
-
+    },
+    More_Files(){
+      this.add_files++;
+      this.items.files.push({id:this.add_files,title: null,file: null});
+    },
+    Remove_Files(id){
+      this.items.files = this.items.files.filter(item => {
+        return item.id !== id;
+      })
     }
 
   }
@@ -93,6 +105,9 @@ export default {
           <q-item v-bind="scope.itemProps">
             <q-item-section>
               <q-item-label>
+                <strong v-if="scope.opt.parent" class="text-red-8 q-mr-sm">
+                  ( {{scope.opt.parent.name}} )
+                </strong>
                   <span>
                     {{ scope.opt.label }}
                   </span>
@@ -129,15 +144,40 @@ export default {
           v-model="items.description"
           api-key="sceb5ojezxll8rl6rbeg3njp04rrzzorifhf7z9q4zc4shn0"
           :init="{
-                        language: 'fa',
-                        directionality: 'rtl',
-                        plugins: 'lists link image table code help wordcount',
-                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image ',
-                        content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
-                        images_upload_url: 'https://core.pergola.ir/admins/questions/uploader',
-                        automatic_uploads: true
-                      }"
+            language: 'fa',
+            directionality: 'rtl',
+            plugins: 'lists link image table code help wordcount',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image ',
+            content_style: 'body { font-family: Vazirmatn, sans-serif; font-size: 14px; direction: rtl; text-align: right; }',
+            images_upload_url: 'https://core.pergola.ir/admins/questions/uploader',
+            automatic_uploads: true
+          }"
       />
+    </div>
+    <div class="col-12 q-mt-md q-mb-md">
+      <strong class="text-primary font-15">افزودن فایل / ویدئو</strong>
+    </div>
+    <template v-for="file in items.files">
+        <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
+          <q-input outlined type="text" label="عنوان فایل/ویدئو " v-model="file.title">
+            <template v-slot:prepend>
+              <q-btn  @click="Remove_Files(file.id)" color="red-6" icon="fa-duotone fa-trash" flat round size="sm"></q-btn>
+            </template>
+          </q-input>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 q-pa-xs">
+          <q-file outlined bottom-slots v-model="file.file" label="انتخاب فایل / ویدئو " counter>
+            <template v-slot:prepend>
+              <q-icon name="fa-duotone fa-light fa-upload" @click.stop.prevent />
+            </template>
+            <template v-slot:append>
+              <q-icon name="close" @click.stop.prevent="file.file = null" class="cursor-pointer" />
+            </template>
+          </q-file>
+        </div>
+    </template>
+    <div class="col-12">
+      <q-btn @click="More_Files" glossy color="primary" icon="fa-duotone fa-plus-circle" rounded label="فایل بیشتر"></q-btn>
     </div>
     <div class="col-12 q-mt-sm q-pa-xs text-right">
       <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>

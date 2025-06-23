@@ -56,6 +56,14 @@ export default {
           field: row => row.name,
         },
         {
+          name: 'parent',
+          value: 'parent',
+          label: 'سرگروه',
+          align: 'left',
+          sortable: true,
+          field: row => row.parent,
+        },
+        {
           name: 'color',
           value: 'color',
           label: 'رنگ',
@@ -180,7 +188,6 @@ export default {
       <q-dialog
           v-model="dialog_create"
           position="top"
-
       >
         <q-card style="width: 1024px; max-width: 85vw;">
 
@@ -214,6 +221,13 @@ export default {
           v-model:pagination="pagination"
           @request="Items_OnRequest"
       >
+        <template v-slot:body-cell-parent="props">
+          <q-td :props="props">
+            <strong v-if="props.row.parent">
+              {{props.row.parent.name}}
+            </strong>
+          </q-td>
+        </template>
         <template v-slot:body-cell-color="props">
           <q-td :props="props">
             <div :style="'background-color:'+props.row.color+ ';margin: 0 auto'" class="tear"></div>

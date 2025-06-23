@@ -5,15 +5,20 @@ import Editor from "@tinymce/tinymce-vue";
 export default {
   name: "Posts_Category_Create",
   components: {Editor},
+  mounted() {
+    this.Get_Categories();
+  },
   data() {
     return {
       items : {
+        parent_id : null,
         name : null,
         color : null,
         description : null,
       },
       loading: false,
       groups:[],
+      categories:[],
       errors: [],
     }
   },
@@ -31,6 +36,16 @@ export default {
         this.loading=false;
       });
     },
+    Get_Categories(){
+      Stores_Posts().Category_All().then(res => {
+        this.categories=[];
+        res.data.result.forEach(item => {
+          this.categories.push({label : item.name , value:item.id});
+        })
+      }).catch(error => {
+
+      })
+    }
 
   }
 }
@@ -45,6 +60,37 @@ export default {
         </template>
       </q-input>
 
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
+      <q-select
+          label="انتخاب سرگروه "
+          outlined
+          :options="categories"
+          emit-value
+          map-options
+          use-input
+          v-model="items.parent_id"
+          position="top"
+          clearable
+          :error="this.Methods_Validation_Check(errors,'post_category_id')"
+          clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
+      >
+        <template v-slot:option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section>
+              <q-item-label>
+                  <span>
+                    {{ scope.opt.label }}
+                  </span>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:error>
+          <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'post_category_id')" />
+        </template>
+      </q-select>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
       <q-input
