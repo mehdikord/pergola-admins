@@ -29,6 +29,31 @@ export const Stores_Posts = defineStore('posts',{
                })
            })
        },
+        Remove_File(params){
+           return new Promise((resolve, reject) => {
+               axios.get('admins/posts/files/remove/'+params.id).then(response =>{
+                   return resolve(response);
+               }).catch(error =>{
+                   return reject(error);
+               })
+           })
+       },
+        Add_File(params){
+           return new Promise((resolve, reject) => {
+               let data = new FormData();
+               if (params.file){data.append('file',params.file,params.file.name);}
+
+               axios.post('admins/posts/'+params.id+'/file',data,{
+                   headers: { "Content-Type": "multipart/form-data" },
+               }).then(response =>{
+                   return resolve(response);
+               }).catch(error =>{
+                   return reject(error);
+               })
+           })
+       },
+
+
 
         Create(params){
             return new Promise((resolve, reject) => {

@@ -29,6 +29,7 @@ export default {
       dialog_create:false,
       dialog_edit:[],
       dialog_image:[],
+      dialog_files:[],
       items_selected:[],
       selected: [],
       pagination: {
@@ -97,6 +98,11 @@ export default {
       visible_columns:[],
       edit_image:null,
       edit_image_loading:null,
+      add_file:{
+        file:null,
+        title:null,
+      },
+      add_file_loading : false,
     }
   },
   methods :{
@@ -233,8 +239,46 @@ export default {
       this.query_params.sort_by = sortBy;
       this.query_params.sort_type = sort_type;
       this.Items_Get(rowsPerPage,page);
-
     },
+    Remove_File(post_id,id){
+      Stores_Posts().Remove_File({id : id}).then(res => {
+        this.items.map(item => {
+          if (item.id === post_id){
+            if (item.files.length){
+              item.files = item.files.filter(file => { return file.id !== id });
+            }
+          }
+          return item;
+        })
+        this.Methods_Notify_Delete();
+      }).catch( error => {
+        this.Methods_Notify_Error_Server();
+
+      });
+    },
+    Add_File(id){
+      this.add_file_loading = true;
+      let parms = {
+        id:id,
+        file : this.add_file.file,
+        title : this.add_file.title
+      }
+      Stores_Posts().Add_File(parms).then(res => {
+        this.items.map(item => {
+          if (item.id === id){
+           return res.data.result;
+          }
+          return item;
+        })
+        this.add_file_loading=false
+        this.Methods_Notify_Create();
+
+      }).catch(error => {
+        this.Methods_Notify_Error_Server();
+        this.add_file_loading=false
+      })
+
+    }
 
   }
 
@@ -318,8 +362,9 @@ export default {
         <template v-slot:body-cell-tools="props">
           <q-td :props="props">
             <div class="text-center">
-              <q-btn @click="dialog_edit[props.row.id] = true" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fa-duotone fa-light fa-edit" size="9px" round  />
-              <q-btn @click="dialog_image[props.row.id] = true" glossy title="ویرایش تصویر" class="q-ma-xs" color="purple-6" icon="fa-duotone fa-light fa-image" size="9px" round  />
+              <q-btn @click="dialog_edit[props.row.id] = true" glossy title="ویرایش آیتم" class="q-ma-xs" color="blue-8" icon="fa-duotone fa-regular fa-edit" size="9px" round  />
+              <q-btn @click="dialog_image[props.row.id] = true" glossy title="ویرایش تصویر" class="q-ma-xs" color="purple-6" icon="fa-duotone fa-regular fa-image" size="9px" round  />
+              <q-btn @click="dialog_files[props.row.id] = true" glossy title="مدیریت فایل ها" class="q-ma-xs" color="teal-8" icon="fa-duotone fa-regular fa-folder" size="9px" round  />
               <global_actions_delete_item @Set_Ok="Item_Delete(props.row.id)" :loading="delete_loading"></global_actions_delete_item>
             </div>
 
@@ -361,6 +406,51 @@ export default {
                   <div class="q-mt-lg text-right">
                     <q-btn @click="Item_Delete_Image(props.row)" color="red-6" glossy icon="fa-duotone fa-light fa-trash" label="حذف تصویر فعلی" class="q-mr-sm"></q-btn>
                     <q-btn @click="Item_Edit_Image(props.row)" :loading="edit_image_loading" color="indigo-6" glossy icon="fa-duotone fa-light fa-check" label="ویراش تصویر" class="q-mr-sm"></q-btn>
+                    <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+            <q-dialog
+                v-model="dialog_files[props.row.id]"
+                position="top"
+            >
+              <q-card style="width: 960px; max-width: 85vw;">
+                <q-card-section>
+                  <strong class="text-purple-8 font-15">مدیریت فایل های : <strong class="text-red-8">{{props.row.title}}</strong></strong>
+                  <q-btn size="sm" icon="fa-duotone fa-light fa-times" glossy round dense v-close-popup color="red" class="q-mr-sm float-right"/>
+                </q-card-section>
+                <q-card-section>
+                  <div class="q-mb-lg">
+                    <div><strong class="text-primary">افزودن فایل جدید</strong></div>
+                    <div class="q-mt-md q-mb-xl">
+                      <div class="row">
+                        <div class="col-md-5 q-px-xs">
+                          <q-input dense rounded outlined label="عنوان فایل" v-model="add_file.title"/>
+                        </div>
+                        <div class="col-md-5 q-px-xs">
+                          <q-file v-model="add_file.file" outlined dense rounded clearable @clear="add_file.file = null" label="انتخاب فایل"></q-file>
+                        </div>
+                        <div class="col-md-2 q-px-sm">
+                          <q-btn :loading="add_file_loading" @click="Add_File(props.row.id)" color="teal-7" label="افزودن فایل" rounded glossy icon="fa-duotone fa-regular fa-plus" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <template v-if="props.row.files.length">
+                    <template v-for="file in props.row.files">
+                      <div>
+                        <q-icon name="fa-duotone fa-file" size="20px" color="teal-8"/>
+                        <strong class="q-ml-sm">{{ file.title }} <span class="font-weight-600 text-grey-8">( {{file.file_name}} )</span></strong>
+                        <q-btn @click="Remove_File(props.row.id,file.id)" outline title="حذف فایل" class="float-right" color="red-6" icon="fa-duotone fa-regular fa-trash" size="10px" round  />
+                      </div>
+                      <q-separator class="q-mt-md q-mb-md "/>
+                    </template>
+                  </template>
+                  <template v-else>
+                    <global_images_animation_no_data></global_images_animation_no_data>
+                  </template>
+                  <div class="q-mt-lg text-right">
                     <q-btn color="grey-8" glossy icon="fa-duotone fa-light fa-times" label="بستن" class="q-mr-sm" v-close-popup></q-btn>
                   </div>
                 </q-card-section>

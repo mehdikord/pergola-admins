@@ -38,7 +38,7 @@ export default {
 </script>
 
 <template>
-  <q-btn :loading="loading" title="حذف این آیتم" glossy class="q-ma-xs" color="red-8" icon="fa-duotone fa-light fa-trash" size="9px" round @click="Delete_Item"  />
+  <q-btn :loading="loading" title="حذف این آیتم" glossy class="q-ma-xs" color="red-8" icon="fa-duotone fa-regular fa-trash" size="9px" round @click="Delete_Item"  />
 </template>
 
 <style scoped>
