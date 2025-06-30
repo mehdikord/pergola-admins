@@ -81,6 +81,14 @@ export default {
           field: row => row.views,
         },
         {
+          name: 'files',
+          value: 'files',
+          label: 'تعداد فایل',
+          align: 'left',
+          sortable: false,
+          field: row => row,
+        },
+        {
           name: 'is_active',
           value: 'is_active',
           label: 'وضعیت',
@@ -103,6 +111,7 @@ export default {
         title:null,
       },
       add_file_loading : false,
+      search_title:null
     }
   },
   methods :{
@@ -277,7 +286,13 @@ export default {
         this.Methods_Notify_Error_Server();
         this.add_file_loading=false
       })
+    },
+    Search(){
+      if (this.search_title){
+        this.query_params.search.title = this.search_title
 
+        this.Items_Get()
+      }
     }
 
   }
@@ -287,7 +302,7 @@ export default {
 </script>
 
 <template>
-  <q-card>
+  <q-card flat>
     <q-card-section>
       <global_actions_header_buttons @Create="dialog_create=true" :create="true"></global_actions_header_buttons>
 
@@ -307,7 +322,11 @@ export default {
           </q-card-section>
         </q-card>
       </q-dialog>
-
+      <div class="row">
+        <div class="col-md-4">
+          <q-input outlined rounded v-model="search_title" label="جستجو با عنوان" dense @keyup.enter="Search" />
+        </div>
+      </div>
       <q-separator class="q-mt-xl"/>
     </q-card-section>
     <q-card-section>
@@ -354,6 +373,13 @@ export default {
             <q-chip color="dark" size="md" :label="props.row.views" text-color="white"></q-chip>
           </q-td>
         </template>
+        <template v-slot:body-cell-files="props">
+          <q-td :props="props">
+
+            <q-chip color="deep-orange" size="md" :label="props.row.files.length" text-color="white"></q-chip>
+          </q-td>
+        </template>
+
         <template v-slot:body-cell-is_active="props">
           <q-td :props="props">
             <global_actions_activation_item @Set_Ok="Item_Activation(props.row.id)" :status="props.row.is_active"></global_actions_activation_item>
