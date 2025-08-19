@@ -3,7 +3,7 @@
 import {Stores_Questions} from "@/stores/questions/questions.js";
 import colors_create from "@/views/colors/Colors_Create.vue";
 import Question_Answers from "@/views/questions/Question_Answers.vue";
-import {useQuasar} from "quasar";
+import {format, useQuasar} from "quasar";
 
 
 
@@ -51,6 +51,14 @@ export default {
           align: 'left',
           sortable: true,
           field: row => '# ' + row.id,
+        },
+        {
+          name: 'created_at',
+          required: true,
+          label: 'ت ایجاد',
+          align: 'left',
+          sortable: true,
+          field: row => row.created_at,
         },
         {
           name: 'from_color',
@@ -243,6 +251,13 @@ export default {
           v-model:pagination="pagination"
           @request="Items_OnRequest"
       >
+      <template v-slot:body-cell-created_at="props">
+          <q-td :props="props">
+
+            <global_filter_date :date="props.row.created_at" />
+          </q-td>
+        </template>
+
         <template v-slot:body-cell-from_color="props">
           <q-td :props="props">
             <div class="row q-gutter-sm">
@@ -271,6 +286,7 @@ export default {
             <q-dialog
                 v-model="dialog_items[props.row.id]"
                 position="top"
+                persistent
             >
               <q-card style="width: 700px; max-width: 85vw;">
                 <q-card-section>
@@ -307,6 +323,7 @@ export default {
                 v-model="dialog_answers[props.row.id]"
                 position="top"
                 full-width
+                persistent
             >
               <q-card style="width: 1024px; max-width: 85vw;">
                 <q-card-section>
