@@ -11,7 +11,9 @@ export default {
     }
   },
   methods:{
-
+    Logout(){
+      Stores_Auth().AuthLogout();
+    }
   },
   mounted() {
     this.user = Stores_Auth().AuthGetUser
@@ -57,7 +59,7 @@ export default {
         </q-item>
         <q-separator />
         <q-item clickable>
-          <q-item-section>
+          <q-item-section @click="Logout">
             <div>
               <q-icon name="fa-duotone fa-light fa-sign-out" size="18px" class="q-mr-sm" color="red-8" /><span> خروج از حساب</span>
             </div>
