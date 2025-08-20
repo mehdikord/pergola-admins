@@ -492,7 +492,7 @@ name: "Questions_Create",
                 <div class="q-mt-md">
                   <Editor
                       v-model="answer_text"
-                      api-key="sceb5ojezxll8rl6rbeg3njp04rrzzorifhf7z9q4zc4shn0"
+                      api-key="2pilphf7q2r756w6jluid3y79bp8dbor5qib8cz35ghpndya"
                       :init="{
                         language: 'fa',
                         directionality: 'rtl',
