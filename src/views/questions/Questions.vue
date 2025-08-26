@@ -1,6 +1,7 @@
 <script>
 
 import {Stores_Questions} from "@/stores/questions/questions.js";
+import {Stores_Colors} from "@/stores/colors/colors.js";
 import colors_create from "@/views/colors/Colors_Create.vue";
 import Question_Answers from "@/views/questions/Question_Answers.vue";
 import {format, useQuasar} from "quasar";
@@ -15,6 +16,8 @@ export default {
   },
   mounted() {
     this.Items_Get();
+    this.Get_From_Colors();
+    this.Get_To_Colors();
   },
   data(){
     return {
@@ -27,7 +30,10 @@ export default {
         sort_type : 'desc',
         per_page : 15,
         page : 1,
-        search :{}
+        search :{
+          from_color : null,
+          to_color : null,
+        }
       },
       items_loading:true,
       delete_loading:false,
@@ -36,6 +42,8 @@ export default {
       dialog_edit:[],
       items_selected:[],
       selected: [],
+      from_colors:[],
+      to_colors:[],
       pagination: {
         sortBy : 'id',
         descending:true,
@@ -118,6 +126,8 @@ export default {
       if (page){
         this.query_params.page = page;
       }
+      console.log(this.query_params);
+      
 
       Stores_Questions().Index(this.query_params).then(res=>{
         this.items = res.data.result.data;
@@ -222,16 +232,111 @@ export default {
 
       })
     },
+     Get_From_Colors() {
+      Stores_Colors().All().then(res => {
+        this.from_colors = [];
+        res.data.result.forEach( item=> {
+          this.from_colors.push({value: item.id, label: item.name,color: item.color});
+        })
+      })
+    },
+
+    Get_To_Colors() {
+      Stores_Colors().All().then(res => {
+        this.to_colors = [];
+        res.data.result.forEach( item=> {
+          this.to_colors.push({value: item.id, label: item.name,color: item.color});
+        })
+      })
+    },
+
+    Filter_To_Color_Select (val, update, abort) {
+      update(() => {
+        if (val){
+          this.to_colors =  this.to_colors.filter(item => {
+            return item.label !== null && item.label.match(val)
+          })
+        }else {
+          this.Get_To_Colors();
+        }
+      })
+    },
+
+    Filter_From_Color_Select (val, update, abort) {
+      update(() => {
+        if (val){
+          this.from_colors =  this.from_colors.filter(item => {
+            return item.label !== null && item.label.match(val)
+          })
+        }else {
+          this.Get_From_Colors();
+        }
+      })
+    },
+
     }
 
 }
 </script>
 
 <template>
-  <q-card>
+  <q-card flat>
     <q-card-section>
       <global_actions_header_buttons @Create="this.$router.push({name : 'questions_create'})" :create="true"></global_actions_header_buttons>
       <q-separator class="q-mt-xl"/>
+    </q-card-section>
+    <q-card-section>
+      <strong class="text-deep-orange-7 font-16">فیلتر و جستجو</strong>
+      <div class="q-mt-md">
+        <div class="row">
+          <div class="col-md-4 q-pa-sm">
+            <q-select
+              class="q-mt-sm"
+              outlined
+              :options="from_colors"
+              emit-value
+              map-options
+              use-input
+              v-model="query_params.search.from_color"
+              @filter="Filter_From_Color_Select"
+              position="top"
+              clearable
+              label="رنگ فعلی"
+              :error="this.Methods_Validation_Check(errors,'from_color_id')"
+              clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
+          >
+          
+            <template v-slot:error>
+              <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'from_color_id')" />
+            </template>
+          </q-select>
+          </div>
+          <div class="col-md-4 q-pa-sm">
+            <q-select
+              class="q-mt-sm"
+              outlined
+              :options="to_colors"
+              emit-value
+              map-options
+              use-input
+              @filter="Filter_To_Color_Select"
+              v-model="query_params.search.to_color"
+              position="top"
+              clearable
+              label="رنگ جدید"
+              :error="this.Methods_Validation_Check(errors,'to_color_id')"
+              clear-icon="fa-duotone fa-light fa-times-circle text-red-8 font-22"
+          >
+            <template v-slot:error>
+              <global_validations_errors :errors="this.Methods_Validation_Errors(errors,'to_color_id')" />
+            </template>
+          </q-select>
+          </div>
+          <div class="col-md-12 q-pa-sm">
+            <q-btn color="deep-orange-6" label="جستجو" @click="Items_Get()" rounded></q-btn>
+          </div>
+        </div>
+      </div>
     </q-card-section>
     <q-card-section>
       <q-table
@@ -364,5 +469,10 @@ export default {
   padding: 20px 10px;
   border-radius:8px;
   border : 1px dashed #212121;
+}
+.tear-selected {
+  width: 32px;
+  aspect-ratio:1;
+  border-radius: 0 50% 50% 50%;
 }
 </style>

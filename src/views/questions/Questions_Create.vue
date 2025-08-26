@@ -81,6 +81,7 @@ name: "Questions_Create",
 
 
     },
+    
     Get_From_Colors() {
       Stores_Colors().All().then(res => {
         this.from_colors = [];
@@ -97,6 +98,7 @@ name: "Questions_Create",
         })
       })
     },
+
     Get_Colors() {
       Stores_Colors().All().then(res => {
         this.all_colors = [];
