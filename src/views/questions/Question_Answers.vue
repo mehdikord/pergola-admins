@@ -275,7 +275,7 @@ export default {
        <div class="q-mt-md">
          <Editor
              v-model="answer.answer.text"
-             api-key="2pilphf7q2r756w6jluid3y79bp8dbor5qib8cz35ghpndya"
+             api-key="ryp4c03079g8mhuw3elxip5leorscxfmmraa4koay19mkqh4"
              :init="{
                         language: 'fa',
                         directionality: 'rtl',

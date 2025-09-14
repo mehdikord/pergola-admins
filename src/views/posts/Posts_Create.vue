@@ -142,7 +142,7 @@ export default {
     <div class="col-xs-12 col-sm-12 col-md-12 q-pa-xs">
       <Editor
           v-model="items.description"
-          api-key="2pilphf7q2r756w6jluid3y79bp8dbor5qib8cz35ghpndya"
+          api-key="ryp4c03079g8mhuw3elxip5leorscxfmmraa4koay19mkqh4"
           :init="{
             language: 'fa',
             directionality: 'rtl',
